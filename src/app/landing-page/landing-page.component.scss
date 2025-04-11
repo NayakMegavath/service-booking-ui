@@ -219,3 +219,43 @@
     font-size: 0.9em;
     color: #777;
   }
+  .about-us-content {
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 40px;
+    text-align: left;
+  }
+  
+  .about-us-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .about-us-content p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .contact-us-details {
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .contact-us-details h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .contact-us-details p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
