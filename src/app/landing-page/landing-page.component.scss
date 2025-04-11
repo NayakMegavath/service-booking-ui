@@ -1,0 +1,221 @@
+.landing-page {
+    // General landing page styles
+    padding-top: 60px; /* Ensure top padding for fixed header */
+    min-height: 100vh;
+  }
+  
+  .app-header {
+    background-color: #f8f9fa;
+    padding: 10px 20px; /* Standard padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute space */
+    border-bottom: 1px solid #eee;
+  
+    /* Make the header fixed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* Ensure it stays on top */
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: auto; /* Push everything else to the right */
+  }
+  
+  .logo-container img {
+    max-height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo-container h1 {
+    font-size: 1.5em;
+    margin: 0;
+  }
+
+  .main-nav {
+    margin-left: auto; /* Push navigation to the right of the logo */
+    margin-right: 20px; /* Add some spacing before the auth buttons */
+  }
+  
+  .main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .main-nav ul li {
+    margin-left: 20px;
+  }
+  
+  .main-nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 0.85em;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto; /* Push buttons to the right */
+    margin-right: 20px; /* Add some right margin for alignment */
+  }
+  
+  .auth-buttons a {
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .register-button {
+    background-color: #007bff; /* Example color */
+    color: white;
+  }
+  
+  .login-button {
+    border: 1px solid #007bff; /* Example style */
+    color: #007bff;
+  }
+  
+  .service-sections {
+    padding: 20px;
+    margin-top: 60px; /* Adjust top margin to avoid overlap */
+  }
+  
+  .service-item {
+    display: flex;
+    margin-bottom: 30px;
+    align-items: center; /* Vertically align image and info */
+  }
+  
+  .service-item.even {
+    flex-direction: row; /* Image on left, info on right */
+  }
+  
+  .service-item.odd {
+    flex-direction: row-reverse; /* Image on right, info on left */
+  }
+  
+  .image-container {
+    flex: 1;
+    max-width: 50%;
+    padding: 10px;
+    max-height: 350px; /* Adjust as needed */
+    overflow: hidden;
+  }
+  
+  .image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .info-container {
+    flex: 1;
+    max-width: 50%;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .info-container h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .info-container p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .action-buttons {
+    margin-top: 15px;
+  }
+  
+  .action-buttons button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .action-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .request-demo-form {
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .request-demo-form h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .request-demo-form p {
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+  
+  .request-demo-form button[type="submit"] {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .request-demo-form button[type="submit"]:hover {
+    background-color: #1e7e34;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    font-size: 0.9em;
+    color: #777;
+  }

@@ -1,0 +1,88 @@
+.register-form {
+    max-width: 600px; /* Adjust as needed */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap; /* Allow fields to wrap on smaller screens */
+    }
+  
+    .form-group {
+      flex: 1; /* Distribute space equally among fields in a row */
+      margin-bottom: 0; /* Remove default margin for better row spacing */
+    }
+  
+    .form-group.wide {
+      flex-basis: 100%; /* Make wide fields take the full width */
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      width: calc(100% - 12px); /* Adjust for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+  
+    input.invalid {
+      border-color: red; /* Highlight invalid inputs with red border */
+    }
+  
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  
+    button {
+      flex-grow: 1;
+      padding: 12px;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  
+    .register-button {
+      background-color: #007bff;
+    }
+  
+    .register-button:hover {
+      background-color: #0056b3;
+    }
+  
+    .cancel-button {
+      background-color: #6c757d;
+    }
+  
+    .cancel-button:hover {
+      background-color: #dc3545;
+    }
+  }
