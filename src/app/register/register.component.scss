@@ -86,3 +86,18 @@
       background-color: #dc3545;
     }
   }
+  .skills-checkbox-group {
+    display: flex;
+    flex-direction: column; /* Arrange checkboxes vertically */
+    gap: 5px;
+    margin-top: 10px;
+  }
+  
+  .skills-checkbox-group div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .skills-checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+  }
