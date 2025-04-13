@@ -1,30 +1,87 @@
-<header class="app-header">
-  <div class="logo-container">
-    <img src="assets/images/service-app-logo.png" alt="Your App Logo">
-    <h1>Book My Service</h1>
-  </div>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="#about-us-section">About Us</a></li>
-      <li><a href="#contact-us-section">Contact</a></li>
-      <li><a href="#request-demo-section">Request Demo</a></li>
-      <li><a routerLink="/login">Book Service</a></li>
-    </ul>
-  </nav>
-  <div class="auth-buttons">
-    <div class="dropdown">
-      <button class="register-button dropdown-toggle" (click)="toggleRegisterDropdown()">Register</button>
-      <div class="dropdown-menu" [class.show]="showRegisterDropdown">
-        <a class="dropdown-item" (click)="navigateToRegister('client')">Client</a>
-        <a class="dropdown-item" (click)="navigateToRegister('service-provider')">Service Provider</a>
+    <div class="landing-page">
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/images/service-app-logo.jpg" alt="Your App Logo">
+        <h1>Book My Service</h1>
       </div>
-    </div>
-    <div class="dropdown">
-      <button class="login-button dropdown-toggle" (click)="toggleLoginDropdown()">Login</button>
-      <div class="dropdown-menu" [class.show]="showLoginDropdown">
-        <a class="dropdown-item" (click)="navigateToLogin('client')">Client</a>
-        <a class="dropdown-item" (click)="navigateToLogin('service-provider')">Service Provider</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#about-us-section">About Us</a></li>
+          <li><a href="#contact-us-section">Contact</a></li>
+          <li><a href="#request-demo-section">Request Demo</a></li>
+          <li><a routerLink="/login">Book Service</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <div class="dropdown">
+          <button class="register-button dropdown-toggle" (click)="toggleRegisterDropdown()">Register</button>
+          <div class="dropdown-menu" [class.show]="showRegisterDropdown">
+            <a class="dropdown-item" (click)="navigateToRegister('client')">Client</a>
+            <a class="dropdown-item" (click)="navigateToRegister('service-provider')">Service Provider</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="login-button dropdown-toggle" (click)="toggleLoginDropdown()">Login</button>
+          <div class="dropdown-menu" [class.show]="showLoginDropdown">
+            <a class="dropdown-item" (click)="navigateToLogin('client')">Client</a>
+            <a class="dropdown-item" (click)="navigateToLogin('service-provider')">Service Provider</a>
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
+  
+    <main class="service-sections">
+      <section *ngFor="let service of services; let i = index" class="service-item" [class.even]="i % 2 === 0" [class.odd]="i % 2 !== 0">
+        <div class="image-container">
+          <img [src]="service.imageUrl" [alt]="service.altText">
+        </div>
+        <div class="info-container">
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+          <div class="action-buttons">
+            <button (click)="requestDemoClick(service.id)">Request Demo</button>
+            <button (click)="bookServiceClick(service.id)">Book Service</button>
+          </div>
+        </div>
+      </section>
+  
+      <section id="request-demo-section" class="request-demo-form">
+        <h2>Request a Demo</h2>
+        <p>Please fill out the form below to request a demo of our services. Our team will get in touch with you shortly.</p>
+        <form #demoForm="ngForm" (ngSubmit)="submitDemoRequest(demoForm.value)">
+          <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" ngModel required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" ngModel required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" ngModel required>
+          </div>
+          <button type="submit">Submit Request</button>
+        </form>
+      </section>
+  
+      <section id="about-us-section" class="about-us-content">
+        <h2>About Our Service Booking App</h2>
+        <p>Welcome to Book My Service! We are dedicated to providing a seamless and efficient platform for you to book various services online. Our mission is to connect you with trusted professionals and make the process of finding and scheduling services as easy as possible.</p>
+        <p>Our app offers a wide range of services, from home maintenance to personal care, all in one convenient place. We carefully vet our service providers to ensure quality and reliability.</p>
+        <p>Feel free to <a [routerLink]="['/register']" [queryParams]="{ userType: 'client' }">register as a client</a> or <a [routerLink]="['/login']" [queryParams]="{ userType: 'client' }">login</a> to explore our services.</p>
+      </section>
+  
+      <section id="contact-us-section" class="contact-us-details">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance, please feel free to contact us using the details below:</p>
+        <p><strong>Address:</strong> 123 Main Street, Anytown, State 12345</p>
+        <p><strong>Phone:</strong> (555) 123-4567</p>
+        <p><strong>Email:</strong> info&#64;bookmyserviceapp.com</p>
+      </section>
+    </main>
+  
+    <footer>
+      <p>&copy; {{ currentYear }} Book My Service</p>
+    </footer>
   </div>
-</header>

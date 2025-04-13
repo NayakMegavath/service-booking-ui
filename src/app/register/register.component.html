@@ -1,156 +1,160 @@
-<!-- <h2>Register</h2>
-<form (ngSubmit)="onSubmit()" class="register-form">
-  <div class="form-row">
-    <div class="form-group">
-      <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" [(ngModel)]="registerData.firstName" name="firstName" required>
-      <div *ngIf="formErrors.firstName" class="error-message">{{ formErrors.firstName }}</div>
-    </div>
-    <div class="form-group">
-      <label for="middleName">Middle Name (Optional):</label>
-      <input type="text" id="middleName" [(ngModel)]="registerData.middleName" name="middleName">
-    </div>
-    <div class="form-group">
-      <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" [(ngModel)]="registerData.lastName" name="lastName" required>
-      <div *ngIf="formErrors.lastName" class="error-message">{{ formErrors.lastName }}</div>
-    </div>
+<div class="registration-container">
+  <div class="registration-info">
+    <h2>{{ registrationHeading }}</h2>
+    <p>{{ infoText }}</p>
+    <p *ngIf="userType === 'service-provider'">As a service provider, please select up to three skills you offer. These skills are required.</p>
   </div>
 
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="email">Email Address (Optional):</label>
-      <input type="email" id="email" [(ngModel)]="registerData.email" name="email" [class.invalid]="formErrors.email">
-      <div *ngIf="formErrors.email" class="error-message">{{ formErrors.email }}</div>
+  <form (ngSubmit)="onSubmit()" class="register-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" [(ngModel)]="registerData.firstName" name="firstName" required>
+        <div *ngIf="formErrors.firstName" class="error-message">{{ formErrors.firstName }}</div>
+      </div>
+      <div class="form-group">
+        <label for="middleName">Middle Name (Optional):</label>
+        <input type="text" id="middleName" [(ngModel)]="registerData.middleName" name="middleName">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" [(ngModel)]="registerData.lastName" name="lastName" required>
+        <div *ngIf="formErrors.lastName" class="error-message">{{ formErrors.lastName }}</div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" [(ngModel)]="registerData.phone" name="phone" (input)="validatePhone()" [class.invalid]="formErrors.phone">
-      <div *ngIf="formErrors.phone" class="error-message">{{ formErrors.phone }}</div>
+    <div class="form-row">
+      <div class="form-group wide">
+        <label for="email">Email Address (Optional):</label>
+        <input type="email" id="email" [(ngModel)]="registerData.email" name="email" [class.invalid]="formErrors.email">
+        <div *ngIf="formErrors.email" class="error-message">{{ formErrors.email }}</div>
+      </div>
     </div>
-    <div class="form-group wide">
-      <label for="address1">Address 1:</label>
-      <input type="text" id="address1" [(ngModel)]="registerData.address1" name="address1" required>
-      <div *ngIf="formErrors.address1" class="error-message">{{ formErrors.address1 }}</div>
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="address2">Address 2 (Optional):</label>
-      <input type="text" id="address2" [(ngModel)]="registerData.address2" name="address2">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          [(ngModel)]="registerData.phoneNumber"
+          name="phoneNumber"
+          (input)="validatePhone()"
+          placeholder="0123456789"
+          pattern="[0-9]{10}"
+          [class.invalid]="formErrors.phoneNumber"
+        >
+        <div *ngIf="formErrors.phoneNumber" class="error-message">{{ formErrors.phoneNumber }}</div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="city">City:</label>
-      <input type="text" id="city" [(ngModel)]="registerData.city" name="city" required>
-      <div *ngIf="formErrors.city" class="error-message">{{ formErrors.city }}</div>
+    <div class="form-row">
+      <div class="form-group wide">
+        <label for="address1">Address 1:</label>
+        <input type="text" id="address1" [(ngModel)]="registerData.address1" name="address1" required>
+        <div *ngIf="formErrors.address1" class="error-message">{{ formErrors.address1 }}</div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="state">State:</label>
-      <input type="text" id="state" [(ngModel)]="registerData.state" name="state" required>
-      <div *ngIf="formErrors.state" class="error-message">{{ formErrors.state }}</div>
-    </div>
-    <div class="form-group">
-      <label for="zip">Zip Code:</label>
-      <input type="text" id="zip" [(ngModel)]="registerData.zip" name="zip" required>
-      <div *ngIf="formErrors.zip" class="error-message">{{ formErrors.zip }}</div>
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="password">Password:</label>
-      <input type="password" id="password" [(ngModel)]="registerData.password" name="password" (input)="validatePassword()" [class.invalid]="formErrors.password">
-      <div *ngIf="formErrors.password" class="error-message">{{ formErrors.password }}</div>
+    <div class="form-row">
+      <div class="form-group wide">
+        <label for="address2">Address 2 (Optional):</label>
+        <input type="text" id="address2" [(ngModel)]="registerData.address2" name="address2">
+      </div>
     </div>
-  </div>
 
-  <div class="button-group">
-    <button type="submit" class="register-button">Register</button>
-    <button type="button" (click)="onCancel()" class="cancel-button">Cancel</button>
-  </div>
-</form> -->
-<h2>Register</h2>
-<form (ngSubmit)="onSubmit()" class="register-form">
-  <div class="form-row">
-    <div class="form-group">
-      <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" [(ngModel)]="registerData.firstName" name="firstName" required>
-      <div *ngIf="formErrors.firstName" class="error-message">{{ formErrors.firstName }}</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" id="city" [(ngModel)]="registerData.city" name="city" required>
+        <div *ngIf="formErrors.city" class="error-message">{{ formErrors.city }}</div>
+      </div>
+      <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" id="state" [(ngModel)]="registerData.state" name="state" required>
+        <div *ngIf="formErrors.state" class="error-message">{{ formErrors.state }}</div>
+      </div>
+      <div class="form-group">
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" [(ngModel)]="registerData.zip" name="zip" required>
+        <div *ngIf="formErrors.zip" class="error-message">{{ formErrors.zip }}</div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="middleName">Middle Name (Optional):</label>
-      <input type="text" id="middleName" [(ngModel)]="registerData.middleName" name="middleName">
-    </div>
-    <div class="form-group">
-      <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" [(ngModel)]="registerData.lastName" name="lastName" required>
-      <div *ngIf="formErrors.lastName" class="error-message">{{ formErrors.lastName }}</div>
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="email">Email Address (Optional):</label>
-      <input type="email" id="email" [(ngModel)]="registerData.email" name="email" [class.invalid]="formErrors.email">
-      <div *ngIf="formErrors.email" class="error-message">{{ formErrors.email }}</div>
+    <div class="form-row">
+      <div class="form-group wide password-input-container">
+        <label for="password">
+          Password:
+          <span class="password-policy-icon" (mouseenter)="showPasswordRules = true" (mouseleave)="showPasswordRules = false" title="Show Password Policy">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15a1 1 0 10-2 0v-6a1 1 0 102 0v6zm-1-9a1 1 0 110-2 1 1 0 010 2z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </label>
+  
+        <div class="input-wrapper">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="registerData.password"
+            name="password"
+            (input)="validatePassword()"
+            [class.invalid]="formErrors.password"
+          />
+          <!-- <span class="password-toggle-icon" (click)="togglePasswordVisibility()" [innerHTML]="showCrossedEye ? eyeIconCrossed : eyeIconVisible"></span> -->
+          <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
+            {{ passwordVisible ? '🙈' : '👁️' }}
+          </span>
+        </div>
+        <div *ngIf="formErrors.password" class="error-message">{{ formErrors.password }}</div>
+        <div *ngIf="showPasswordRules" class="password-rules">
+          <h6>Password must contain:</h6>
+          <ul>
+            <li>At least 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+            <li>At least one number</li>
+            <li>At least one special character (e.g., !&#64;#$%^&*)</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" [(ngModel)]="registerData.phone" name="phone" (input)="validatePhone()" [class.invalid]="formErrors.phone">
-      <div *ngIf="formErrors.phone" class="error-message">{{ formErrors.phone }}</div>
+    <div *ngIf="userType === 'service-provider'" class="form-row">
+      <div class="form-group wide">
+        <label>Skills (Select up to 3):</label>
+        <div class="skills-checkbox-group">
+          <div *ngFor="let skill of skills">
+            <input
+              type="checkbox"
+              id="{{ skill.value }}"
+              [value]="skill.value"
+              (change)="toggleSkill(skill.value)"
+              [checked]="isSkillSelected(skill.value)"
+              [disabled]="selectedSkills.length >= 3 && !isSkillSelected(skill.value)"
+            >
+            <label [for]="skill.value">{{ skill.label }}</label>
+          </div>
+        </div>
+        <div *ngIf="formErrors.skills" class="error-message">{{ formErrors.skills }}</div>
+      </div>
     </div>
-    <div class="form-group wide">
-      <label for="address1">Address 1:</label>
-      <input type="text" id="address1" [(ngModel)]="registerData.address1" name="address1" required>
-      <div *ngIf="formErrors.address1" class="error-message">{{ formErrors.address1 }}</div>
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="address2">Address 2 (Optional):</label>
-      <input type="text" id="address2" [(ngModel)]="registerData.address2" name="address2">
+    <div *ngIf="userType === 'service-provider' && selectedSkills.length > 0" class="form-row">
+      <div class="form-group wide">
+        <label>Selected Skills:</label>
+        <div class="selected-skills">
+          <span *ngFor="let skillValue of selectedSkills; let i = index" class="skill-tag">
+            {{ getSkillLabel(skillValue) }}
+            <button type="button" (click)="removeSkill(i)" class="remove-skill">x</button>
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="city">City:</label>
-      <input type="text" id="city" [(ngModel)]="registerData.city" name="city" required>
-      <div *ngIf="formErrors.city" class="error-message">{{ formErrors.city }}</div>
+    <div class="button-group">
+      <button type="button" (click)="onCancel()" class="cancel-button">Cancel</button>
+      <button type="submit" class="register-button">{{ registrationHeading }}</button>
     </div>
-    <div class="form-group">
-      <label for="state">State:</label>
-      <input type="text" id="state" [(ngModel)]="registerData.state" name="state" required>
-      <div *ngIf="formErrors.state" class="error-message">{{ formErrors.state }}</div>
-    </div>
-    <div class="form-group">
-      <label for="zip">Zip Code:</label>
-      <input type="text" id="zip" [(ngModel)]="registerData.zip" name="zip" required>
-      <div *ngIf="formErrors.zip" class="error-message">{{ formErrors.zip }}</div>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group wide">
-      <label for="password">Password:</label>
-      <input type="password" id="password" [(ngModel)]="registerData.password" name="password" (input)="validatePassword()" [class.invalid]="formErrors.password">
-      <div *ngIf="formErrors.password" class="error-message">{{ formErrors.password }}</div>
-    </div>
-  </div>
-
-  <div class="button-group">
-    <button type="submit" class="register-button">Register</button>
-    <button type="button" (click)="onCancel()" class="cancel-button">Cancel</button>
-  </div>
-</form>
+  </form>
+</div>
