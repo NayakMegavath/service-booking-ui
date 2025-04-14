@@ -1,4 +1,4 @@
-  <div class="landing-page">
+    <div class="landing-page">
     <header class="app-header">
       <div class="logo-container">
         <img src="assets/images/service-app-logo.jpg" alt="Your App Logo">
@@ -13,8 +13,20 @@
         </ul>
       </nav>
       <div class="auth-buttons">
-        <a routerLink="/register" class="register-button">Register</a>
-        <a routerLink="/login" class="login-button">Login</a>
+        <div class="dropdown">
+          <button class="register-button dropdown-toggle" (click)="toggleRegisterDropdown()">Register</button>
+          <div class="dropdown-menu" [class.show]="showRegisterDropdown">
+            <a class="dropdown-item" (click)="navigateToRegister('client')">Client</a>
+            <a class="dropdown-item" (click)="navigateToRegister('service-provider')">Service Provider</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="login-button dropdown-toggle" (click)="toggleLoginDropdown()">Login</button>
+          <div class="dropdown-menu" [class.show]="showLoginDropdown">
+            <a class="dropdown-item" (click)="navigateToLogin('client')">Client</a>
+            <a class="dropdown-item" (click)="navigateToLogin('service-provider')">Service Provider</a>
+          </div>
+        </div>
       </div>
     </header>
   
@@ -57,7 +69,8 @@
         <h2>About Our Service Booking App</h2>
         <p>Welcome to Book My Service! We are dedicated to providing a seamless and efficient platform for you to book various services online. Our mission is to connect you with trusted professionals and make the process of finding and scheduling services as easy as possible.</p>
         <p>Our app offers a wide range of services, from home maintenance to personal care, all in one convenient place. We carefully vet our service providers to ensure quality and reliability.</p>
-        <p>Feel free to <a routerLink="/register">register</a> or <a routerLink="/login">login</a> to explore our services.</p>
+        <p>Feel free to register as a <a [routerLink]="['/register']" [queryParams]="{ userType: 'client' }">client</a> or <a [routerLink]="['/register']" [queryParams]="{ userType: 'service-provider' }">service provider.</a></p>
+        <p>If you are already registered, please login as <a [routerLink]="['/login']" [queryParams]="{ userType: 'client' }">client</a> or <a [routerLink]="['/login']" [queryParams]="{ userType: 'service-provider' }">service provider</a> to explore our services.</p>
       </section>
   
       <section id="contact-us-section" class="contact-us-details">

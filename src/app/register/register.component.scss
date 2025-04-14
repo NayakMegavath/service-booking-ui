@@ -1,88 +1,395 @@
 .register-form {
-    max-width: 600px; /* Adjust as needed */
-    margin: 20px auto;
-    padding: 20px;
+  max-width: 600px; /* Adjust as needed */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Allow fields to wrap on smaller screens */
+  }
+
+  .form-group {
+    flex: 1; /* Distribute space equally among fields in a row */
+    margin-bottom: 0; /* Remove default margin for better row spacing */
+  }
+
+  .form-group.wide {
+    flex-basis: 100%; /* Make wide fields take the full width */
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"] {
+    width: 100%; // Use full width
+    padding: 8px 35px 8px 10px; // Leave space on the right for the icon
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input.invalid {
+    border-color: red; /* Highlight invalid inputs with red border */
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  button {
+    flex-grow: 1;
+    padding: 12px;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .register-button {
+    background-color: #007bff;
+  }
+
+  .register-button:hover {
+    background-color: #0056b3;
+  }
+
+  .cancel-button {
+    background-color: #6c757d;
+  }
+
+  .cancel-button:hover {
+    background-color: #dc3545;
+  }
+
+  .password-policy-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 5px;
+    cursor: help;
+    color: blue;
+  }
+
+  .password-policy-icon svg {
+    width: 1em;
+    height: 1em;
+  }
+
+  .password-rules {
     background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #555;
+  }
+
+  .password-rules h6 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .password-rules ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+  }
+
+  .password-rules li {
+    margin-bottom: 3px;
+  }
+
+  .password-input-container {
+    // position: relative; /* To position the toggle icon */
+    .input-wrapper {
+      position: relative;
   
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+      input {
+        width: 100%;
+        padding: 10px;
+        padding-right: 40px; // Space for the icon
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
   
-    .form-row {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
-      flex-wrap: wrap; /* Allow fields to wrap on smaller screens */
-    }
-  
-    .form-group {
-      flex: 1; /* Distribute space equally among fields in a row */
-      margin-bottom: 0; /* Remove default margin for better row spacing */
-    }
-  
-    .form-group.wide {
-      flex-basis: 100%; /* Make wide fields take the full width */
-    }
-  
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-  
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="password"] {
-      width: calc(100% - 12px); /* Adjust for padding and border */
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-  
-    input.invalid {
-      border-color: red; /* Highlight invalid inputs with red border */
-    }
-  
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-      margin-top: 5px;
-    }
-  
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-  
-    button {
-      flex-grow: 1;
-      padding: 12px;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-  
-    .register-button {
-      background-color: #007bff;
-    }
-  
-    .register-button:hover {
-      background-color: #0056b3;
-    }
-  
-    .cancel-button {
-      background-color: #6c757d;
-    }
-  
-    .cancel-button:hover {
-      background-color: #dc3545;
+      .password-toggle-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 20px;
+        color: #555;
+        z-index: 2;
+      }
     }
   }
+
+  input[type="password"] {
+    width: calc(100% - 35px); /* Adjust width for icon */
+    padding: 8px;
+    padding-right: 30px; /* Make space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  // .password-toggle-icon {
+  //   position: absolute;
+  //   top: 50%;
+  //   right: 10px; // Adjust as needed to fit within input
+  //   transform: translateY(-50%);
+  //   cursor: pointer;
+  //   color: #333;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   width: 24px;
+  //   height: 24px;
+  //   z-index: 2;
+  // }
+
+  // .password-toggle-icon svg {
+  //   width: 1.2em;
+  //   height: 1.2em;
+  //   fill: currentColor; /* Force fill to black on the SVG itself */
+  // }
+
+}
+
+.registration-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.registration-info {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.registration-info h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.registration-info p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.registration-container .register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-container .register-form .form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.registration-container .register-form .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-container .register-form .form-group.wide {
+  flex: 2;
+}
+
+.registration-container .register-form .form-group.form-inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+.registration-container .register-form .form-group.form-inline .form-subgroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-container .register-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.registration-container .register-form input[type="text"],
+.registration-container .register-form input[type="email"],
+.registration-container .register-form input[type="tel"],
+.registration-container .register-form input[type="password"],
+.registration-container .register-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.registration-container .register-form select[multiple] {
+  height: auto; /* Adjust as needed */
+}
+
+.registration-container .register-form .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.registration-container .register-form .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.registration-container .register-form .register-button,
+.registration-container .register-form .cancel-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.registration-container .register-form .register-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.registration-container .register-form .register-button:hover {
+  background-color: #0056b3;
+}
+
+.registration-container .register-form .cancel-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.registration-container .register-form .cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.registration-container .register-form .skills-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.registration-container .register-form .skills-checkbox-group div {
+  display: flex;
+  align-items: center;
+}
+
+.registration-container .register-form .skills-checkbox-group input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.registration-container .register-form .selected-skills {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.registration-container .register-form .skill-tag {
+  background-color: #e9ecef;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.registration-container .register-form .remove-skill {
+  background: none;
+  border: none;
+  color: red; /* This should make the 'x' red */
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+}
+
+.registration-container .register-form .remove-skill:hover {
+  opacity: 0.8;
+}
+
+.registration-container .register-form .selected-skills .skill-tag .remove-skill {
+  color: red;
+}
+
+.registration-container .register-form .password-policy-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  cursor: help;
+  color: blue;
+}
+
+.registration-container .register-form .password-policy-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.registration-container .register-form .password-rules {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.registration-container .register-form .password-rules h6 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.registration-container .register-form .password-rules ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.registration-container .register-form .password-rules li {
+  margin-bottom: 3px;
+}

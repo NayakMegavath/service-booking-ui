@@ -90,7 +90,7 @@
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background-color: #f8f9fa;
+    background-color: #6c757d;
     color: #333;
     cursor: pointer;
     font-size: 1em;
@@ -117,4 +117,46 @@
   
   .login-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 5px; /* Adjust spacing as needed */
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it's on top of the form */
+  }
+  
+  .loading-spinner {
+    background-color: white;
+    color: #333;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
   }

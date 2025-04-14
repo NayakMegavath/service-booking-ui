@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* styles.scss */
+@import '@angular/material/prebuilt-themes/indigo-pink.css'; /* Or your chosen theme */
+
+/* Style the snackbar container for success */
+.mat-snack-bar-container.simple-success {
+  background-color: transparent !important; /* Remove the default background */
+  color: green !important; /* Set text color to green */
+}
+
+.mat-snack-bar-container.simple-success button {
+  color: inherit !important; /* Ensure button text inherits the green color */
+}
+
+/* Style the snackbar container for error */
+.mat-snack-bar-container.simple-error {
+  background-color: transparent !important; /* Remove the default background */
+  color: red !important; /* Set text color to red */
+}
+
+.mat-snack-bar-container.simple-error button {
+  color: inherit !important; /* Ensure button text inherits the red color */
+}
