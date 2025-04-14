@@ -40,3 +40,14 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+*.js
+/.angular
+*.js
+*.js
+*.json
+*.json
+*.js
+*.map
+*.js
+*.json
+*.json

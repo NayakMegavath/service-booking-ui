@@ -69,7 +69,8 @@
         <h2>About Our Service Booking App</h2>
         <p>Welcome to Book My Service! We are dedicated to providing a seamless and efficient platform for you to book various services online. Our mission is to connect you with trusted professionals and make the process of finding and scheduling services as easy as possible.</p>
         <p>Our app offers a wide range of services, from home maintenance to personal care, all in one convenient place. We carefully vet our service providers to ensure quality and reliability.</p>
-        <p>Feel free to <a [routerLink]="['/register']" [queryParams]="{ userType: 'client' }">register as a client</a> or <a [routerLink]="['/login']" [queryParams]="{ userType: 'client' }">login</a> to explore our services.</p>
+        <p>Feel free to register as a <a [routerLink]="['/register']" [queryParams]="{ userType: 'client' }">client</a> or <a [routerLink]="['/register']" [queryParams]="{ userType: 'service-provider' }">service provider.</a></p>
+        <p>If you are already registered, please login as <a [routerLink]="['/login']" [queryParams]="{ userType: 'client' }">client</a> or <a [routerLink]="['/login']" [queryParams]="{ userType: 'service-provider' }">service provider</a> to explore our services.</p>
       </section>
   
       <section id="contact-us-section" class="contact-us-details">

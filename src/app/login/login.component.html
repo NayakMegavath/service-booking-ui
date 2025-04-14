@@ -16,8 +16,18 @@
     </div>
     <div class="form-actions">
       <button type="button" class="cancel-button" (click)="goToLandingPage()">Cancel</button>
-      <button type="submit" class="login-button">Login</button>
+      <button type="submit" class="login-button" [disabled]="isLoading">
+        Login
+        <span *ngIf="isLoading" class="spinner-text"></span>
+        <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate"></mat-progress-spinner>
+      </button>
     </div>
     <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
   </form>
+</div>
+
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loading-spinner">
+    <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+  </div>
 </div>

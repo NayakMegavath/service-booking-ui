@@ -1,0 +1,82 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .dashboard-header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .left-corner {
+    .welcome-text {
+      font-size: 1.5rem; /* Medium size text */
+      margin: 0;
+    }
+  }
+  
+  .right-corner {
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .profile-icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+  
+    .profile-icon {
+      width: 24px;
+      height: 24px;
+      fill: #555;
+    }
+  
+    .dropdown-content {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      min-width: 100px;
+      display: none; /* Hidden by default */
+    }
+  
+    .profile-dropdown:hover .dropdown-content {
+      display: block;
+    }
+  
+    .dropdown-content button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      text-align: left;
+      border: none;
+      background: none;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+  .dashboard-content {
+    flex-grow: 1;
+    padding: 2rem;
+  }
+  .success-icon {
+    font-size: 20px; /* Adjust size as needed */
+    color: white; /* Or your desired color */
+    margin-right: 8px; /* Add spacing from text */
+    vertical-align: middle; /* Align with text */
+  }

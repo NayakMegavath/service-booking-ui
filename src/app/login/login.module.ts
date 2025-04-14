@@ -2,6 +2,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const routes: Routes = [
   { path: '', component: LoginComponent }
@@ -10,8 +14,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
-  exports: [RouterModule]
+  exports: [RouterModule, LoginComponent]
 })
 export class LoginModule { }
