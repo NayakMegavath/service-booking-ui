@@ -25,3 +25,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-snack-bar-container.simple-error button {
   color: inherit !important; /* Ensure button text inherits the red color */
 }
+
+.simple-success {
+    background-color: #4CAF50 !important; /* Green background */
+    color: white !important;
+  }
+  
+  .simple-error {
+    background-color: #f44336 !important; /* Red background for errors */
+    color: white !important;
+  }
+  
+  .simple-warning {
+    background-color: #ff9800 !important; /* Orange/Amber background for warnings */
+    color: white !important;
+  }

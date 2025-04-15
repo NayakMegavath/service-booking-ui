@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
@@ -19,16 +19,22 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserProfile(): Observable<UserProfile> {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      // Handle case where there's no token (e.g., redirect to login)
-      return new Observable(observer => observer.error('No token available'));
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}` // Assuming Bearer token authentication
-    });
-
+    const headers = this.validateToken();
     return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`, { headers });
+  }
+
+  getServiceProviders(serviceType: string): Observable<any[]> {
+    const headers = this.validateToken();
+    //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
+    return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${serviceType}/providers`);
+  }
+
+  validateToken() {
+    const token = localStorage.getItem('authToken'); // You might need a token for this as well
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 }

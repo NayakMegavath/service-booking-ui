@@ -65,15 +65,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "port": 4201,  // Set your fixed port here
-            "open": true  // Optional: to automatically open the browser
+            "port": 4201, // Set your fixed port here
+            "open": true, // Optional: to automatically open the browser
+            "host": "0.0.0.0" // Allow connections from any host (for ngrok)
           },
           "configurations": {
             "production": {
               "buildTarget": "service-booking-app:build:production"
             },
             "development": {
-              "buildTarget": "service-booking-app:build:development"
+              "buildTarget": "service-booking-app:build:development",
+              "allowedHosts": [
+                ".ngrok-free.app" // To allow any subdomain of ngrok-free.app
+              ]
             }
           },
           "defaultConfiguration": "development"

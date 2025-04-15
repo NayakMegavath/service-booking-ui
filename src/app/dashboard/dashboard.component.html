@@ -5,18 +5,106 @@
       </div>
       <div class="right-corner">
         <div class="profile-dropdown">
-          <button class="profile-icon-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="profile-icon">
-              <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25c0 1.354.59 2.512 1.56 3.258A15.59 15.59 0 008 19.777l.216-.015c.183-.11.397-.178.625-.22A7.004 7.004 0 0112 21a7 7 0 014.5-1.223l.625.22c.228.042.442.11.625.22l.216.015a15.59 15.59 0 003.69-9.769c.97-1.746 1.56-2.904 1.56-3.258A5.25 5.25 0 0012 1.5zM6.529 17.325a17.004 17.004 0 009.942 0l-.03-.225a6.995 6.995 0 01-.977-3.222 6.75 6.75 0 013.04-3.576c1.472.867 2.475 2.17 2.475 3.678 0 1.354-.59 2.512-1.56 3.258A15.59 15.59 0 0016 19.777l-.216-.015c-.183-.11-.397-.178-.625-.22a7.004 7.004 0 01-3.5-1.223l-.625.22c-.228.042-.442.11-.625.22l-.216.015a15.59 15.59 0 00-3.69-9.769c-.97-1.746-1.56-2.904-1.56-3.258 0-1.506 1.003-2.81 2.475-3.678a6.75 6.75 0 013.04 3.576 6.995 6.995 0 01-.977 3.222l-.03.225z" clip-rule="evenodd" />
-            </svg>
+          <button class="profile-icon-button" (click)="toggleProfileDropdown()">
+            <img *ngIf="userAvatarUrl" [src]="userAvatarUrl" alt="User Avatar" class="profile-avatar">
+            <mat-icon *ngIf="!userAvatarUrl">account_circle</mat-icon>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content" [class.show]="isProfileDropdownVisible">
+            <button (click)="navigateToProfile()">Profile</button>
+            <button (click)="navigateToSettings()">Settings</button>
             <button (click)="logout()">Logout</button>
           </div>
         </div>
       </div>
     </header>
     <div class="dashboard-content">
-      <p>Welcome to your dashboard!</p>
+      <div class="wizard-container">
+        <div class="wizard-header">
+          <h3 *ngIf="wizardStep === 1">Step 1: Find Service Provider</h3>
+          <h3 *ngIf="wizardStep === 2">Step 2: Review Booking</h3>
+          <h3 *ngIf="wizardStep === 3">Step 3: Complete Booking</h3>
+          <p class="wizard-info" *ngIf="wizardStep === 1">Search and select a service provider.</p>
+          <p class="wizard-info" *ngIf="wizardStep === 2">Review the selected provider and choose a time slot.</p>
+          <p class="wizard-info" *ngIf="wizardStep === 3">Confirm your booking details.</p>
+        </div>
+  
+        <div *ngIf="wizardStep === 1" class="wizard-step">
+          <p class="booking-message">{{ bookingMessage }}</p>
+          <button class="book-service-button" (click)="showSearch = true">Book Service</button>
+  
+          <div *ngIf="showSearch" class="search-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Service Type</mat-label>
+              <mat-select [(ngModel)]="selectedServiceType" (ngModelChange)="fetchServiceProviders()">
+                <mat-option *ngFor="let service of serviceTypes" [value]="service.value">
+                  {{ service.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div *ngIf="serviceProviders.length > 0" class="providers-grid">
+            <table>
+              <thead>
+                <tr>
+                  <th></th> <th>Name</th>
+                  <th (click)="sortProviders('experience')">Experience <mat-icon>sort</mat-icon></th>
+                  <th (click)="sortProviders('rating')">Rating <mat-icon>sort</mat-icon></th>
+                  <th (click)="sortProviders('distance')">Distance <mat-icon>sort</mat-icon></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let provider of sortedProviders; let i = index">
+                  <td>
+                    <mat-checkbox
+                      [checked]="selectedProviderIndex === i"
+                      (change)="selectProvider(i)"
+                      [disabled]="selectedProviderIndex !== null && selectedProviderIndex !== i"
+                    ></mat-checkbox>
+                  </td>
+                  <td>{{ provider.name }}</td>
+                  <td>{{ provider.experience }} years</td>
+                  <td>{{ provider.rating }}</td>
+                  <td>{{ provider.distance }} km</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="wizard-buttons">
+              <button class="cancel-button" (click)="resetWizard()">Cancel</button>
+              <button [disabled]="selectedProviderIndex === null" class="proceed-button" (click)="nextStep()">Proceed</button>
+            </div>
+          </div>
+        </div>
+  
+        <div *ngIf="wizardStep === 2 && selectedProvider" class="wizard-step review-booking">
+          <h3>Review Service Provider</h3>
+          <p>You have selected: {{ selectedProvider.name }}</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Select Time Slot</mat-label>
+            <mat-select [(ngModel)]="selectedSlot">
+              <mat-option *ngFor="let slot of timeSlots" [value]="slot">
+                {{ slot }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="wizard-buttons">
+            <button class="back-button" (click)="prevStep()">Back</button>
+            <button class="cancel-button" (click)="resetWizard()">Cancel</button>
+            <button [disabled]="!selectedSlot" class="proceed-button" (click)="nextStep()">Proceed</button>
+          </div>
+        </div>
+  
+        <div *ngIf="wizardStep === 3 && selectedProvider && selectedSlot" class="wizard-step complete-booking">
+          <h3>Confirm Booking</h3>
+          <p>Service Provider: {{ selectedProvider.name }}</p>
+          <p>Time Slot: {{ selectedSlot }}</p>
+          <p>Please confirm your booking details.</p>
+          <div class="wizard-buttons">
+            <button class="back-button" (click)="prevStep()">Back</button>
+            <button class="close-button" (click)="resetWizard()">Close</button>
+            <button class="complete-button" (click)="completeBooking()">Complete Booking</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>

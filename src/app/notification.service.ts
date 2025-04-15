@@ -34,6 +34,19 @@ export class NotificationService {
     );
   }
 
+  showWarning(message: string, duration: number = 4000): void { // Slightly shorter duration than error
+    this.snackBar.open(
+      message,
+      'Close',
+      {
+        duration: duration,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['simple-warning'], // New panel class for warnings
+      }
+    );
+  }
+
   showMessage(
     message: string,
     panelClass: string | string[],
