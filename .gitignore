@@ -55,3 +55,7 @@ Thumbs.db
 *.js
 *.map
 *.js
+*.json
+*.js
+*.map
+*.db-lock

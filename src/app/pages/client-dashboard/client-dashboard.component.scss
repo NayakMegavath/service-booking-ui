@@ -42,25 +42,54 @@
   }
 }
 
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
 .sidebar {
-  width: 220px;
-  background: #1f2937;
+  width: 240px;
+  background-color: #2e3a59;
   color: white;
-  padding: 1rem;
-  ul {
-    list-style: none;
-    padding: 0;
-    li {
-      margin: 1rem 0;
-      a {
-        color: white;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: width 0.3s ease-in-out;
+
+  &.sidebar-collapsed {
+    width: 60px;
+
+    .profile-container {
+      .profile-name {
+        display: none;
+      }
+    }
+
+    ul {
+      li {
+        .nav-text {
+          display: none;
+        }
+        a {
+          justify-content: center;
+          padding: 10px 10px;
         }
       }
     }
   }
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 240px; /* Match sidebar width */
+  padding-top: 1rem; /* Add some top padding to move content down if needed */
+  /* Remove or adjust margin-top to move content up */
+  margin-top: -1rem; /* Adjust this negative value to move content up */
 }
 
 .main-content {
@@ -68,7 +97,6 @@
   padding: 2rem;
   background: #f3f4f6;
   overflow-y: auto;
-  margin-top: -32px;
 
   .search-section {
     margin-bottom: 1.5rem;
@@ -83,7 +111,7 @@
     flex-wrap: wrap;
     gap: 1.5rem;
     .service-card {
-      width: 120px;
+      width: 113px;
       text-align: center;
       background: white;
       border-radius: 15px;
@@ -140,5 +168,236 @@
         border-radius: 5px;
       }
     }
+  }
+}
+
+.program-info-expansion {
+  margin-bottom: 1.5rem;
+}
+
+/* Booking Wizard Styles */
+.booking-wizard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  z-index: 1000;
+  display: flex; /* Center the wizard */
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-wizard {
+  position: relative;
+  background-color: white;
+  padding: 30px; /* Increased padding */
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+  z-index: 1001; /* Sit above the overlay */
+  width: 95%; /* Increased width */
+  max-width: 750px; /* Maximum width */
+  height: 500px;
+  /* min-height: 400px; */ /* Optional: Minimum height */
+}
+
+.wizard-header {
+  margin-bottom: 25px; /* Increased margin */
+  text-align: center;
+}
+
+.wizard-header h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px; /* Larger title */
+}
+
+.wizard-header p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  background-color: #f3f3f3;
+  height: 10px; /* Slightly thicker progress bar */
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.progress {
+  background-color: blue; /* Blue for progress */
+  height: 100%;
+  border-radius: 5px;
+  width: 0%; /* Updated dynamically in component */
+}
+
+.wizard-body {
+  /* Styles for the content of each step */
+}
+
+/* Step 1: Search Providers */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Wider provider items */
+  gap: 15px; /* Increased gap */
+  margin-bottom: 30px; /* Increased margin */
+}
+
+.provider-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Rounded corners for items */
+  background-color: #f9f9f9; /* Light background for items */
+}
+
+.provider-selection {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.provider-selection input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Step 2: Review Booking */
+.time-slot-selection {
+  margin-bottom: 30px; /* Increased margin */
+}
+
+.time-slot-selection label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.time-slot-selection select {
+  width: 100%;
+  padding: 12px; /* Larger padding */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Wizard Controls */
+.wizard-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px; /* Increased gap */
+  margin-top: 30px; /* Increased margin */
+}
+
+.cancel-button {
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #ffe0e0;
+  }
+}
+
+.proceed-button, .complete-button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #337ab7;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.back-button, .close-button {
+  background-color: #f3f3f3;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+  .close-wizard-icon {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+    z-index: 10; /* Ensure it's above other content in the wizard */
+  
+    &:hover {
+      color: red;
+    }
+  }
+  
+}
+
+.provider-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.provider-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: blue;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    border-color: blue;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    /* Add more prominent styling for selection */
+    background-color: #e0f7fa;
+  }
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  p {
+    margin-bottom: 3px;
+    color: #666;
+    font-size: 14px;
   }
 }

@@ -10,7 +10,7 @@
   </div>
   <ul>
     <li>
-      <a routerLink="/dashboard" routerLinkActive="active">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <span class="nav-icon material-icons">dashboard</span>
         <span class="nav-text">Dashboard</span>
       </a>

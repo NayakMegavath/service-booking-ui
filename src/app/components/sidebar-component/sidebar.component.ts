@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth.service';
@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   
   @Input() userType: string | null = null;
 
-  constructor(
+  constructor(private router: Router
   ) {}
    
    ngOnInit(): void {
@@ -32,5 +32,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  isActive(route: string): boolean {
+    return this.router.isActive(route, true);
   }
 }

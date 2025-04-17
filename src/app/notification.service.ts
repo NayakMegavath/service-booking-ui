@@ -16,7 +16,7 @@ export class NotificationService {
         duration: duration,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['simple-success'], // Ensure this class is applied
+        panelClass: ['simple-success'], // Correct panelClass
       }
     );
   }
@@ -29,12 +29,12 @@ export class NotificationService {
         duration: duration,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['simple-error'], // Ensure this class is applied
+        panelClass: ['simple-error'], // Correct panelClass
       }
     );
   }
 
-  showWarning(message: string, duration: number = 4000): void { // Slightly shorter duration than error
+  showWarning(message: string, duration: number = 4000): void {
     this.snackBar.open(
       message,
       'Close',
@@ -42,7 +42,7 @@ export class NotificationService {
         duration: duration,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['simple-warning'], // New panel class for warnings
+        panelClass: ['simple-warning'], // Correct panelClass
       }
     );
   }
@@ -59,7 +59,7 @@ export class NotificationService {
       horizontalPosition: 'center',
       verticalPosition: 'top',
       panelClass: Array.isArray(panelClass) ? panelClass : [panelClass],
-      data: config?.data, // Pass through any data for styling
+      data: config?.data,
       ...config,
     });
   }
