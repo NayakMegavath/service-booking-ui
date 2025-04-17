@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Booking } from '../domain/interface/booking';
+import { RaiseQuery } from '../domain/interface/query';
+import { UserProfile } from '../domain/interface/user-profile';
 
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  email: string;
-  // Add other user properties as needed
-}
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +26,23 @@ export class UserService {
     return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${serviceType}/providers`);
   }
 
+  getUserBookingHistory(clientId: string, userType: string): Observable<any[]> {
+    const headers = this.validateToken();
+    //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
+    return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${clientId}/${userType}/history`);
+  }
+
+
+  createBooking(clientId: string, bookingData: Booking): Observable<any> {
+    const headers = this.validateToken();
+    return this.http.post(`${this.apiUrl}/bookings/${clientId}`, bookingData, { headers });
+  }
+
+  submitQuery(queryData: RaiseQuery): Observable<any> {
+    const headers = this.validateToken();
+    return this.http.post(`${this.apiUrl}/queries`, queryData, { headers });
+  }
+  
   validateToken() {
     const token = localStorage.getItem('authToken'); // You might need a token for this as well
     let headers = new HttpHeaders();

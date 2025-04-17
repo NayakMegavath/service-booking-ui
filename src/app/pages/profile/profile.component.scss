@@ -1,0 +1,55 @@
+// mat-card {
+//     max-width: 500px;
+//     margin: 2rem auto;
+//     padding: 2rem;
+//   }
+  
+//   .full-width {
+//     width: 100%;
+//     margin-bottom: 1rem;
+//   }
+  
+.profile-card {
+  background: #fff;
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 16px;
+  max-width: 500px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #1565c0;
+    }
+  }
+
+  .interests {
+    margin-top: 1rem;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding: 0.3rem 0;
+      }
+    }
+  }
+}

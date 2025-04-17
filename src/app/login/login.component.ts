@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute  } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, FormBuilder, FormControl } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../auth.service'; // Assuming you have an AuthService
 import { MatSnackBar } from '@angular/material/snack-bar'; // For showing success/error messages
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '../notification.service';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, FormsModule, NgIf, MatProgressSpinnerModule],
+  imports: [RouterLink, FormsModule, NgIf, MatProgressSpinnerModule, HeaderComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loginSubscription!: Subscription;
   userTypeFromUrl: string | null = null;
   private routeSubscription!: Subscription;
-
+  loginForm!: FormGroup;
+  
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -31,6 +34,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl('')
+    });
+
     var routeSubscription = this.route.queryParams.subscribe(params => {
       this.userTypeFromUrl = params['userType'];
     });
@@ -39,6 +47,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(formData: any): void {
     this.isLoading = true;
     this.errorMessage = ''; // Clear any previous error message
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please enter username and password.';
+      return;
+    }
 
     this.loginSubscription = this.authService.login(formData, this.userTypeFromUrl).subscribe({
       next: (response: any) => {

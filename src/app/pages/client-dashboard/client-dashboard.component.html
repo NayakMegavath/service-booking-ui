@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/bookings">Bookings</a></li>
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a routerLink="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Welcome, {{ username }}!</h1>
+
+    <!-- Service Search -->
+    <div class="search-providers-dropdown">
+      <label for="providerSearch">Search Service</label>
+      <div class="dropdown-wrapper">
+        <span class="search-icon"></span>
+        <select id="providerSearch" [(ngModel)]="selectedProvider">
+          <option value="" disabled selected>Select a Service</option>
+          <option *ngIf="providers.length === 0" value="" disabled>No data to show</option>
+          <option *ngFor="let provider of providers" [value]="provider">
+            {{ provider }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Service Icons -->
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services">
+        <img [src]="getServiceIcon(service)" alt="{{ service }}" />
+        <p>{{ service }}</p>
+        <button class="book-button" (click)="bookService(service)">Book</button>
+      </div>
+    </div>
+
+    <!-- Upcoming Booking -->
+    <div class="upcoming-bookings">
+      <h2>Upcoming Bookings</h2>
+      <div *ngFor="let booking of upcomingBookings" class="booking-card">
+        <p><strong>Service:</strong> {{ booking.service }}</p>
+        <p><strong>Date:</strong> {{ booking.date }}</p>
+        <button (click)="viewDetails(booking)">View Details</button>
+      </div>
+    </div>
+  </main>
+</div>

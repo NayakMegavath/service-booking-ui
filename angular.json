@@ -26,6 +26,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/favicon.ico",
               {
                 "glob": "**/*",
                 "input": "src/assets",
@@ -65,9 +66,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "port": 4201, // Set your fixed port here
-            "open": true, // Optional: to automatically open the browser
-            "host": "0.0.0.0" // Allow connections from any host (for ngrok)
+            "port": 4201,
+            "open": true,
+            "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
@@ -76,7 +77,7 @@
             "development": {
               "buildTarget": "service-booking-app:build:development",
               "allowedHosts": [
-                ".ngrok-free.app" // To allow any subdomain of ngrok-free.app
+                ".ngrok-free.app"
               ]
             }
           },
@@ -95,9 +96,11 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/favicon.ico",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [

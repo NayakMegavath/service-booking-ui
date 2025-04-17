@@ -1,0 +1,144 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+
+  .search-providers-dropdown {
+    margin-bottom: 20px;
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .dropdown-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      background-color: #f9f9f9;
+      padding: 5px 10px;
+      .search-icon {
+        margin-right: 10px;
+        /* Add any specific styles for your search icon here */
+      }
+      select {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        padding: 8px 0;
+        font-size: 16px;
+        color: #555;
+        -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
+        -moz-appearance: none;    /* Remove default arrow in Gecko browsers */
+        appearance: none;         /* Standard way to remove default arrow */
+        background-image: url('/assets/icons/dropdown-arrow.png'); /* Path to your arrow icon */
+        background-repeat: no-repeat;
+        background-position: right 10px center; /* Adjust position as needed */
+        background-size: 20px; /* Adjust size as needed */
+        padding-right: 30px; /* Make space for the arrow */
+      }
+    }
+  }
+}
+
+.sidebar {
+  width: 220px;
+  background: #1f2937;
+  color: white;
+  padding: 1rem;
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      margin: 1rem 0;
+      a {
+        color: white;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f3f4f6;
+  overflow-y: auto;
+  margin-top: -32px;
+
+  .search-section {
+    margin-bottom: 1.5rem;
+    select {
+      padding: 0.5rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    .service-card {
+      width: 120px;
+      text-align: center;
+      background: white;
+      border-radius: 15px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      img {
+        height: 120px;
+        margin-bottom: 0.5rem;
+      }
+      .book-button { /* Style for the Book button */
+        background-color: #007bff; /* Modern blue color */
+        color: white;
+        border: none;
+        border-radius: 8px; /* More rounded corners */
+        padding: 10px 20px; /* Increased padding for better touch area */
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold; /* Make the text stand out */
+        transition: background-color 0.3s ease; /* Smooth hover transition */
+        width: 90%; /* Make the button wider within the card */
+        margin-top: 0.75rem; /* Add some space above the button */
+
+        &:hover {
+          background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        &:focus {
+          outline: none; /* Remove default focus outline */
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Add a custom focus style */
+        }
+
+        &:active {
+          background-color: #004085; /* Even darker blue on active */
+        }
+      }
+    }
+  }
+
+  .upcoming-bookings {
+    margin-top: 2rem;
+    .booking-card {
+      background: white;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 5px solid #3b82f6;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      button {
+        margin-top: 0.5rem;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+}

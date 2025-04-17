@@ -15,10 +15,13 @@ export class AuthService {
   private tokenSubject = new BehaviorSubject<string | null>(this.getToken());
   public token$ = this.tokenSubject.asObservable();
   public isLoggedIn$ = this.token$.pipe(tap((token) => console.log('Is logged in:', !!token)));
-
+  private currentUserTypeSubject = new BehaviorSubject<string | null>(null);
+  currentUserType$ = this.currentUserTypeSubject.asObservable();
+  
   constructor(private authDataService: AuthDataService) {} // Inject AuthDataService
 
   login(credentials: any, userTypeFromUrl: string | null): Observable<AuthResponse> {
+    this.currentUserTypeSubject.next(userTypeFromUrl);
     return this.authDataService.login(credentials, userTypeFromUrl).pipe(
       tap((response: any) => this.setToken(response.token))
     );
@@ -26,6 +29,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('authToken');
+    this.currentUserTypeSubject.next(null);
     this.tokenSubject.next(null);
     // Optionally call a server-side logout endpoint using AuthDataService
   }
@@ -41,6 +45,10 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  getCurrentUserType(): Observable<string | null> {
+    return this.currentUserType$;
   }
 
 }
