@@ -1,18 +1,3 @@
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { RouterModule } from '@angular/router';
-// import { HeaderComponent } from '../components/header-component/header.component';
-// import { SidebarComponent } from '../components/sidebar-component/sidebar.component';
-
-// @Component({
-//   selector: 'app-dashboard-layout',
-//   standalone: true,
-//   imports: [CommonModule, RouterModule, SidebarComponent, HeaderComponent],
-//   templateUrl: './dashboard-layout.component.html',
-//   styleUrls: ['./dashboard-layout.component.scss']
-// })
-// export class DashboardLayoutComponent {}
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -53,7 +38,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   serviceProviders: ServiceProvider[] = [];
   sortedProviders: ServiceProvider[] = [];
   selectedProviderIndex: number | null = null;
-  sortColumn: keyof ServiceProvider = 'name';
+  sortColumn: keyof ServiceProvider = 'firstName';
   sortDirection: 'asc' | 'desc' = 'asc';
   wizardStep: number = 1;
   selectedProvider: ServiceProvider | null = null;
@@ -249,7 +234,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
       // Implement your actual booking submission logic to the backend here
       let bookingData: Booking = {
         service: this.selectedServiceType,
-        provider: this.selectedProvider.name,
+        provider: this.selectedProvider.firstName + ' '+ this.selectedProvider.lastName,
         date: new Date().toLocaleDateString(), // Example date
         time: this.selectedSlot,
         status: 'pending',
@@ -258,7 +243,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
 
       this.userService.createBooking(this.clientId, bookingData).subscribe({
         next: (response: any) => {
-          this.confirmationMessage = `Your booking with ${this.selectedProvider?.name} at ${this.selectedSlot} has been requested!`;
+          this.confirmationMessage = `Your booking with ${this.selectedProvider?.firstName + ' '+ this.selectedProvider?.firstName} at ${this.selectedSlot} has been requested!`;
           this.showConfirmation = true;
           this.showWizard = false;
           this.loadBookingHistory(); // Refresh booking history

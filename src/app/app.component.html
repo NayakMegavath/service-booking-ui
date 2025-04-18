@@ -1,2 +1,7 @@
-<router-outlet></router-outlet>
-<app-loader></app-loader>
+<div class="app-container">
+    <app-sidebar [userType]="userType"></app-sidebar>
+    <div class="main-content" [class.sidebar-collapsed]="sidebar.isSidebarCollapsed">
+      <router-outlet></router-outlet>
+      <app-loader></app-loader>
+    </div>
+  </div>

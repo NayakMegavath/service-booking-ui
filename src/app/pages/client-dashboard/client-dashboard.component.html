@@ -69,10 +69,10 @@
                 [class.selected]="selectedProviderId === provider.id"
                 (click)="selectProviderCard(provider.id)"
               >
-                <h4>{{ provider.name }}</h4>
-                <p>Rating: {{ provider.rating }}</p>
-                <p>Experience: {{ provider.experience }} years</p>
-                <p>Distance: {{ provider.distance.toFixed(1)}} miles</p>
+                <h4>{{ provider.firstName }} {{ provider.lastName }}</h4>
+                <p>Experience: {{ provider?.experience }} years</p>
+                <p>Distance: {{ provider?.distance ?? 0}} Kms</p>
+                <p>Rating: {{ provider?.rating }}</p>
               </div>
             </div>
             <div class="wizard-controls">
@@ -82,8 +82,28 @@
           </div>
 
           <div *ngIf="currentWizardStep === 2">
-            <h3>Review Booking</h3>
-            <p>Selected Provider: {{ selectedProviderDetails?.name }}</p>
+            <h3>Booking Details</h3>
+            <p>Selected Provider: {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
+
+            <div class="date-picker-section">
+              <mat-form-field appearance="outline">
+                <mat-label>Select a Date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [(ngModel)]="selectedDate"
+                  [matDatepickerFilter]="dateFilter"
+                  (dateChange)="onDateChange($event)"
+                  (input)="validateManualDateInput($event)"
+                />
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-hint *ngIf="!selectedDate && isManualDateInvalid">Please select a valid date.</mat-hint>
+                <mat-hint *ngIf="isPastDateSelected">Past dates are disabled.</mat-hint>
+              </mat-form-field>
+            </div>
+
+
             <div class="time-slot-selection">
               <label for="timeSlot">Select a Time Slot:</label>
               <select id="timeSlot" [(ngModel)]="selectedTimeSlot">
@@ -94,14 +114,28 @@
             <div class="wizard-controls">
               <button class="back-button" (click)="prevWizardStep()">Back</button>
               <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
-              <button class="complete-button" [disabled]="!selectedTimeSlot" (click)="nextWizardStep()">Complete</button>
+              <button class="complete-button" [disabled]="!selectedDate || isPastDateSelected || !selectedTimeSlot" (click)="nextWizardStep()">Proceed</button>
             </div>
           </div>
 
           <div *ngIf="currentWizardStep === 3">
-            <h3>Booking Details</h3>
-            <p><strong>Provider:</strong> {{ selectedProviderDetails?.name }}</p>
+            <h3>Review Booking</h3>
+            <p><strong>Provider:</strong> {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
+            <p><strong>Date:</strong> {{ formatDateForDisplay(selectedDate) }}</p>
             <p><strong>Time Slot:</strong> {{ selectedTimeSlot }}</p>
+            <div class="booking-disclaimer">
+              <p><strong>Important:</strong> Please note that the exact service time may vary slightly depending on the service provider's schedule. We recommend being available around the selected time. Thank you for your understanding!</p>
+            </div>
+            <div class="wizard-controls">
+              <button class="back-button" (click)="prevWizardStep()">Back</button>
+              <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
+              <button class="complete-button" (click)="nextWizardStep()">Proceed</button>
+            </div>
+          </div>
+
+          <div *ngIf="currentWizardStep === 4" class="booking-completed">
+            <h3>Completed</h3>
+            <h2 class="success-message">Your booking is successful!</h2>
             <div class="wizard-controls">
               <button class="close-button" (click)="closeBookingWizard()">Close</button>
             </div>

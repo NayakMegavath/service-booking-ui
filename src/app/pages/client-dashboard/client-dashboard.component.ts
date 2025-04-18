@@ -7,11 +7,14 @@ import { NotificationService } from '../../notification.service';
 import { Subscription } from 'rxjs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ServiceProvider } from '../../../domain/interface/service-provider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-client-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatExpansionModule],
+  imports: [CommonModule, FormsModule, MatExpansionModule, MatDatepickerModule, MatInputModule, MatNativeDateModule],
   templateUrl: './client-dashboard.component.html', 
   styleUrls: ['./client-dashboard.component.scss']
 })
@@ -39,13 +42,26 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   userName: string= '';
   userProfileSubscription!: Subscription;
   private fetchProvidersSubscription!: Subscription;
+  selectedDate: Date | null = null;
+  dateFilter!: (date: Date | null) => boolean;
+  isPastDateSelected = false;
+  isManualDateInvalid = false;
 
   @Input() userType: string | null = null;
     constructor(
     private router: Router,
     private readonly userService: UserService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+  ) {
+    this.dateFilter = (date: Date | null): boolean => {
+      if (!date) {
+        return true;
+      }
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return date >= today;
+    };
+  }
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -110,10 +126,13 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
     this.currentWizardStep = 1;
     this.wizardTitle = 'Search Service Providers';
     this.wizardInfo = 'View available service providers for the selected service.';
-    this.wizardProgress = 33;
+    this.wizardProgress = 0;
     this.selectedProviderId = null;
     this.selectedProviderDetails = null;
     this.selectedTimeSlot = null;
+    this.selectedDate = null;
+    this.isPastDateSelected = false;
+    this.isManualDateInvalid = false;
     this.fetchServiceProviders(service);
   }
 
@@ -126,7 +145,11 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
     this.selectedProviderId = null;
     this.selectedProviderDetails = null;
     this.selectedTimeSlot = null;
+    this.selectedDate = null;
+    this.isPastDateSelected = false;
+    this.isManualDateInvalid = false;
     this.serviceProviders = [];
+    this.timeSlots = [];
   }
 
   nextWizardStep() {
@@ -134,17 +157,22 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
       this.currentWizardStep = 2;
       this.wizardTitle = 'Review Booking';
       this.wizardInfo = 'Review the selected provider and choose a time slot.';
-      this.wizardProgress = 66;
-      this.loadTimeSlots(); // Load time slots when moving to the review step
+      this.wizardProgress = 33;
       this.selectedProviderDetails = this.serviceProviders.find(p => p.id === this.selectedProviderId) || null;
-    } else if (this.currentWizardStep === 2 && this.selectedTimeSlot) {
+      if (this.selectedDate) {
+        this.loadTimeSlots(); // Load time slots if a date is already selected
+      }
+    } else if (this.currentWizardStep === 2) {
       this.currentWizardStep = 3;
       this.wizardTitle = 'Booking Details';
       this.wizardInfo = 'Review your booking details before completion.';
+      this.wizardProgress = 66;
+    } else if (this.currentWizardStep === 3) {
+      this.currentWizardStep = 4;
+      this.wizardTitle = 'Completed';
+      this.wizardInfo = 'Your booking has been successfully submitted.';
       this.wizardProgress = 100;
-      // Implement final booking submission logic here
-      alert('Booking Completed!');
-      this.closeBookingWizard(); // For now, close the wizard
+      // this.closeBookingWizard(); // For now, close the wizard
     }
   }
 
@@ -156,6 +184,9 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
         this.wizardInfo = 'View available service providers for the selected service.';
         this.wizardProgress = 33;
         this.selectedTimeSlot = null;
+        this.selectedDate = null;
+        this.isPastDateSelected = false;
+        this.isManualDateInvalid = false;
       } else if (this.currentWizardStep === 2) {
         this.wizardTitle = 'Review Booking';
         this.wizardInfo = 'Review the selected provider and choose a time slot.';
@@ -205,7 +236,7 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
     // Replace this with your actual API call to fetch service providers
     this.fetchProvidersSubscription = this.userService.getServiceProviders(service).subscribe({
       next: (providers: ServiceProvider[]) => {
-        this.serviceProviders = providers.map(p => ({ ...p, distance: Math.random() * 10 })); // Mock distance
+        this.serviceProviders = providers;//.map(p => ({ ...p, distance: Math.random() * 10 }));; // Mock distance
         // Sort options can be implemented here or in the UI with sorting functions
       },
       error: (error: any) => {
@@ -213,5 +244,56 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
         this.closeBookingWizard();
       }
     });
+  }
+
+  onDateChange(event: any) {
+    this.selectedDate = event.value;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    this.isPastDateSelected = !!this.selectedDate && this.selectedDate < today;
+    this.isManualDateInvalid = false;
+    if (this.selectedDate && !this.isPastDateSelected) {
+      this.loadTimeSlots();
+    } else {
+      this.timeSlots = [];
+      this.selectedTimeSlot = null;
+    }
+  }
+
+  formatDateForDisplay(date: Date | null): string {
+    if (!date) {
+      return '';
+    }
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'short', // Fri
+      month: 'short',   // Apr
+      day: 'numeric',   // 18
+      year: 'numeric'  // 2025
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  }
+
+  validateManualDateInput(event: any) {
+    const inputDate = new Date(event.target.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (isNaN(inputDate.getTime())) {
+      this.isManualDateInvalid = true;
+      this.selectedDate = null;
+      this.timeSlots = [];
+      this.selectedTimeSlot = null;
+    } else if (inputDate < today) {
+      this.isPastDateSelected = true;
+      this.isManualDateInvalid = false;
+      this.selectedDate = inputDate;
+      this.timeSlots = [];
+      this.selectedTimeSlot = null;
+    } else {
+      this.isPastDateSelected = false;
+      this.isManualDateInvalid = false;
+      this.selectedDate = inputDate;
+      this.loadTimeSlots();
+    }
   }
 }
