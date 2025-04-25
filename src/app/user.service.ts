@@ -26,14 +26,13 @@ export class UserService {
     return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${serviceType}/providers`);
   }
 
-  getUserBookingHistory(clientId: string, userType: string): Observable<any[]> {
+  getUserBookingHistory(clientId: number, userType: string): Observable<any[]> {
     const headers = this.validateToken();
     //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
-    return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${clientId}/${userType}/history`);
+    return this.http.get<Booking[]>(`${this.apiUrl}/User/${clientId}/${userType}/history`, { headers });
   }
 
-
-  createBooking(clientId: string, bookingData: Booking): Observable<any> {
+  createBooking(clientId: number, bookingData: Booking): Observable<any> {
     const headers = this.validateToken();
     return this.http.post(`${this.apiUrl}/bookings/${clientId}`, bookingData, { headers });
   }

@@ -22,7 +22,7 @@ import { AuthService } from '../auth.service';
 export class DashboardLayoutComponent implements OnInit, OnDestroy {
   firstName: string = '';
   lastName: string = '';
-  clientId!: string;
+  clientId!: number;
   userAvatarUrl: string | null = null;
   userProfileSubscription!: Subscription;
   isProfileDropdownVisible: boolean = false;
@@ -229,34 +229,33 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     return hour < 10 ? '0' + hour : '' + hour;
   }
 
-  completeBooking(): void {
-    if (this.selectedProvider && this.selectedSlot) {
-      // Implement your actual booking submission logic to the backend here
-      let bookingData: Booking = {
-        service: this.selectedServiceType,
-        provider: this.selectedProvider.firstName + ' '+ this.selectedProvider.lastName,
-        date: new Date().toLocaleDateString(), // Example date
-        time: this.selectedSlot,
-        status: 'pending',
-        id: 0,
-      };
+  // completeBooking(): void {
+  //   if (this.selectedProvider && this.selectedSlot) {
+  //     // Implement your actual booking submission logic to the backend here
+  //     let bookingData: Booking = {
+  //       serviceType: this.selectedServiceType,
+  //       serviceProfessonal: this.selectedProvider.firstName + ' '+ this.selectedProvider.lastName,
+  //       appointmentDate: new Date().toLocaleDateString(), // Example date
+  //       status: 'pending',
+  //       clientId: this.clientId
+  //     };
 
-      this.userService.createBooking(this.clientId, bookingData).subscribe({
-        next: (response: any) => {
-          this.confirmationMessage = `Your booking with ${this.selectedProvider?.firstName + ' '+ this.selectedProvider?.firstName} at ${this.selectedSlot} has been requested!`;
-          this.showConfirmation = true;
-          this.showWizard = false;
-          this.loadBookingHistory(); // Refresh booking history
-        },
-        error: (error: any) => {
-          this.notificationService.showError('Failed to create booking.');
-          console.error('Error creating booking:', error);
-        }
-      });
-    } else {
-      this.notificationService.showWarning('Please select a provider and time slot.');
-    }
-  }
+  //     this.userService.createBooking(this.clientId, bookingData).subscribe({
+  //       next: (response: any) => {
+  //         this.confirmationMessage = `Your booking with ${this.selectedProvider?.firstName + ' '+ this.selectedProvider?.firstName} on ${this.} has been requested!`;
+  //         this.showConfirmation = true;
+  //         this.showWizard = false;
+  //         this.loadBookingHistory(); // Refresh booking history
+  //       },
+  //       error: (error: any) => {
+  //         this.notificationService.showError('Failed to create booking.');
+  //         console.error('Error creating booking:', error);
+  //       }
+  //     });
+  //   } else {
+  //     this.notificationService.showWarning('Please select a provider and time slot.');
+  //   }
+  // }
 
   closeConfirmation(): void {
     this.showConfirmation = false;
@@ -271,7 +270,6 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
       },
       error: (error: any) => {
         this.notificationService.showError('Failed to load booking history.');
-        console.error('Error fetching booking history:', error);
       }
     });
   }

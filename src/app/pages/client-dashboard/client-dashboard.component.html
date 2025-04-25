@@ -82,7 +82,7 @@
           </div>
 
           <div *ngIf="currentWizardStep === 2">
-            <h3>Booking Details</h3>
+            <h3>Schedule Booking</h3>
             <p>Selected Provider: {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
 
             <div class="date-picker-section">
@@ -103,18 +103,10 @@
               </mat-form-field>
             </div>
 
-
-            <div class="time-slot-selection">
-              <label for="timeSlot">Select a Time Slot:</label>
-              <select id="timeSlot" [(ngModel)]="selectedTimeSlot">
-                <option value="" disabled selected>Select a time slot</option>
-                <option *ngFor="let slot of timeSlots" [value]="slot">{{ slot }}</option>
-              </select>
-            </div>
             <div class="wizard-controls">
               <button class="back-button" (click)="prevWizardStep()">Back</button>
               <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
-              <button class="complete-button" [disabled]="!selectedDate || isPastDateSelected || !selectedTimeSlot" (click)="nextWizardStep()">Proceed</button>
+              <button class="complete-button" [disabled]="!selectedDate || isPastDateSelected" (click)="nextWizardStep()">Proceed</button>
             </div>
           </div>
 
@@ -122,10 +114,10 @@
             <h3>Review Booking</h3>
             <p><strong>Provider:</strong> {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
             <p><strong>Date:</strong> {{ formatDateForDisplay(selectedDate) }}</p>
-            <p><strong>Time Slot:</strong> {{ selectedTimeSlot }}</p>
-            <div class="booking-disclaimer">
-              <p><strong>Important:</strong> Please note that the exact service time may vary slightly depending on the service provider's schedule. We recommend being available around the selected time. Thank you for your understanding!</p>
-            </div>
+            <p class="provider-contact-note">
+              📞 The service provider will reach out to you soon to confirm their availability and schedule the final appointment.
+            </p>
+
             <div class="wizard-controls">
               <button class="back-button" (click)="prevWizardStep()">Back</button>
               <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
@@ -147,10 +139,15 @@
     <!-- Upcoming Booking -->
     <div class="upcoming-bookings">
       <h2>Upcoming Bookings</h2>
-      <div *ngFor="let booking of upcomingBookings" class="booking-card">
-        <p><strong>Service:</strong> {{ booking.service }}</p>
-        <p><strong>Date:</strong> {{ booking.date }}</p>
-        <button (click)="viewDetails(booking)">View Details</button>
+      <div class="booking-card-grid">
+        <div *ngFor="let booking of inProgressBookings" class="booking-card">
+          <p><strong>Service Professional:</strong> {{ booking?.serviceProfessional?.firstName }} {{ booking?.serviceProfessional?.lastName }}</p>
+          <p><strong>Service:</strong> {{ booking?.serviceType }}</p>
+          <p><strong>Date:</strong> {{ booking?.appointmentDate | date: 'fullDate' }}</p>
+          <p><strong>Status:</strong> {{ booking?.status }}</p>
+          <p><strong>Amount:</strong> {{ booking?.amountPaid }}</p>
+          <button (click)="viewDetails(booking)">View Details</button>
+        </div>
       </div>
     </div>
   </main>

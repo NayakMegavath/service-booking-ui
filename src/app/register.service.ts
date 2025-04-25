@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
-import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'

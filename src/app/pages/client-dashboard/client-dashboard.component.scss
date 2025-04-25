@@ -150,14 +150,40 @@
     }
   }
 
+  // .upcoming-bookings {
+  //   margin-top: 2rem;
+  //   .booking-card {
+  //     background: white;
+  //     padding: 1rem;
+  //     margin: 1rem 0;
+  //     border-left: 5px solid #3b82f6;
+  //     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  //     button {
+  //       margin-top: 0.5rem;
+  //       background: #3b82f6;
+  //       color: white;
+  //       border: none;
+  //       padding: 0.5rem 1rem;
+  //       cursor: pointer;
+  //       border-radius: 5px;
+  //     }
+  //   }
+  // }
   .upcoming-bookings {
     margin-top: 2rem;
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .booking-card-grid {
+      display: grid; /* Enable grid container */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+      gap: 1rem; /* Spacing between rows and columns */
+    }
     .booking-card {
       background: white;
       padding: 1rem;
-      margin: 1rem 0;
       border-left: 5px solid #3b82f6;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       button {
         margin-top: 0.5rem;
         background: #3b82f6;
@@ -194,12 +220,12 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 900px;
+  max-width: 750px;
   position: relative;
   display: flex;
   flex-direction: column;
-  max-height: 1000px;
-  height: 600px;
+  max-height: 600px;
+  height: 550px;
   padding: 0; /* Remove padding from the main container */
 }
 
@@ -496,4 +522,9 @@
   strong {
     color: #555;
   }
+}
+.provider-contact-note {
+  margin-top: 82px;
+  font-size: 14px;
+  color: #333;
 }

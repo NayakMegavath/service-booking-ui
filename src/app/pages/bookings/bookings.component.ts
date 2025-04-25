@@ -50,21 +50,20 @@ export class BookingsComponent {
   constructor(private bookingsService: BookingsService) {}
 
   ngOnInit(): void {
-        this.loadBookings();
+        //this.loadBookingHistory();
       }
     
-    loadBookings(): void {
-      this.bookingsService.getBookings().subscribe({
-        next: (data: Booking[]) => {
-          this.bookings = data;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.isLoading = false;
-          // Optionally show error message here
-        }
-      });
-    }
+    // loadBookingHistory(): void {
+    //   this.bookingsService.getUserBookingHistory(this.clientId, 'client').subscribe({
+    //     next: (history: Booking[]) => {
+    //       this.bookingHistory = history;
+    //       this.filterBookings();
+    //     },
+    //     error: (error: any) => {
+    //       this.notificationService.showError('Failed to load booking history.');
+    //     }
+    //   });
+    // }
 
   viewDetails(booking: any) {
     alert(`Details for Booking ID: ${booking.id}`);
