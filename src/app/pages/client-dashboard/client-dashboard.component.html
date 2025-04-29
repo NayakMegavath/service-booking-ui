@@ -151,4 +151,68 @@
       </div>
     </div>
   </main>
+
+  <div class="booking-details-overlay" *ngIf="isBookingDetailsPopupVisible">
+    <div class="booking-details-popup">
+        <button class="close-popup-icon" (click)="closeBookingDetailsPopup()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2>Booking Details</h2>
+        <div *ngIf="selectedBookingForDetails">
+            <p><strong>Service Professional:</strong> {{ selectedBookingForDetails?.serviceProfessional?.firstName }} {{ selectedBookingForDetails?.serviceProfessional?.lastName }}</p>
+            <p><strong>Service Type:</strong> {{ selectedBookingForDetails?.serviceType }}</p>
+            <p><strong>Date:</strong>
+                <span *ngIf="!isEditMode">{{ selectedBookingForDetails?.appointmentDate | date: 'fullDate' }}</span>
+                <mat-form-field appearance="outline" *ngIf="isEditMode">
+                    <mat-label>Edit Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="editPicker"
+                        [(ngModel)]="editedDate"
+                        (dateChange)="onDateChange($event)"
+                    />
+                    <mat-datepicker #editPicker></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="editPicker"></mat-datepicker-toggle>
+                </mat-form-field>
+            </p>
+            <p><strong>Status:</strong> {{ selectedBookingForDetails?.status }}</p>
+            <p><strong>Amount Paid:</strong> {{ selectedBookingForDetails?.amountPaid }}</p>
+            <p><strong>Communication Address:</strong></p>
+              <span *ngIf="!isEditMode">{{ getDisplayAddress(selectedBookingForDetails) }}</span>
+            <div *ngIf="isEditMode" class="address-fields">
+              <mat-form-field appearance="outline">
+                  <mat-label>Address Line 1</mat-label>
+                  <input matInput [(ngModel)]="editedAddressLine1">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Address Line 2 (Optional)</mat-label>
+                  <input matInput [(ngModel)]="editedAddressLine2">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput [(ngModel)]="editedCity">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <input matInput [(ngModel)]="editedState">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Zip Code</mat-label>
+                  <input matInput [(ngModel)]="editedZip">
+              </mat-form-field>
+          </div>
+
+            <div class="popup-controls">
+                <button *ngIf="selectedBookingForDetails?.status === 'Pending' && !isEditMode" (click)="enableEditMode()">Edit</button>
+                <button *ngIf="isEditMode" (click)="saveEditedBooking()">Edit</button>
+                <button *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress')" (click)="cancelBooking(selectedBookingForDetails.id)">Cancel Booking</button>
+                <button (click)="closeBookingDetailsPopup()">Close</button>
+            </div>
+        </div>
+        <div *ngIf="!selectedBookingForDetails">
+            <p>No booking details available.</p>
+        </div>
+    </div>
+</div>
+
 </div>

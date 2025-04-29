@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../../domain/application/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',

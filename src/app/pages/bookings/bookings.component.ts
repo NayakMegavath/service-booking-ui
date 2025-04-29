@@ -1,7 +1,7 @@
 // // src/app/bookings/bookings.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookingsService } from '../../bookings.service.service';
+import { BookingsService } from '../../../domain/application/booking/bookings.service.service';
 import { Booking } from '../../../domain/interface/booking';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';

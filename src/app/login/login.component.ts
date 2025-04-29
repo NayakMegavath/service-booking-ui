@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute  } from '@angular/router';
 import { FormGroup, FormsModule, FormBuilder, FormControl } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../auth.service'; // Assuming you have an AuthService
+import { AuthService } from '../../domain/application/auth/auth.service'; // Assuming you have an AuthService
 import { MatSnackBar } from '@angular/material/snack-bar'; // For showing success/error messages
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
-import { NotificationService } from '../notification.service';
+import { NotificationService } from '../../domain/application/notification/notification.service';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   userTypeFromUrl: string | null = null;
   private routeSubscription!: Subscription;
   loginForm!: FormGroup;
+  passwordVisible = false;
   
   constructor(
     private router: Router,
@@ -77,5 +78,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.loginSubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 }

@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Booking } from '../domain/interface/booking';
-import { environment } from '../environments/environment';
+import { Booking } from '../../interface/booking';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,10 @@ private apiUrl = environment.apiUrl;
   getUserBookingHistory(clientId: number, userType: string): Observable<any[]> {
     //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
     return this.http.get<any[]>(`${this.apiUrl}/ServiceBooking/${clientId}/${userType}/history`);
+  }
+
+  cancelBooking(bookingId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/ServiceBooking/${bookingId}`,);
   }
 
   loadAllBookings(): Observable<Booking[]> {

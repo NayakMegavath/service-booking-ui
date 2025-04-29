@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
-import { Booking } from '../domain/interface/booking';
-import { RaiseQuery } from '../domain/interface/query';
-import { UserProfile } from '../domain/interface/user-profile';
+import { environment } from '../../../environments/environment';
+import { Booking } from '../../interface/booking';
+import { RaiseQuery } from '../../interface/query';
+import { UserProfile } from '../../interface/user-profile';
 
 
 @Injectable({

@@ -149,26 +149,6 @@
       }
     }
   }
-
-  // .upcoming-bookings {
-  //   margin-top: 2rem;
-  //   .booking-card {
-  //     background: white;
-  //     padding: 1rem;
-  //     margin: 1rem 0;
-  //     border-left: 5px solid #3b82f6;
-  //     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  //     button {
-  //       margin-top: 0.5rem;
-  //       background: #3b82f6;
-  //       color: white;
-  //       border: none;
-  //       padding: 0.5rem 1rem;
-  //       cursor: pointer;
-  //       border-radius: 5px;
-  //     }
-  //   }
-  // }
   .upcoming-bookings {
     margin-top: 2rem;
     h2 {
@@ -527,4 +507,116 @@
   margin-top: 82px;
   font-size: 14px;
   color: #333;
+}
+
+/* Booking Details Pop-up Styles */
+.booking-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001; /* Higher than the booking wizard */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.booking-details-popup {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px; 
+  max-height: 400px;
+  padding: 20px;
+  position: relative;
+  max-height: 80vh; /* Set a maximum height relative to the viewport */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+
+  h2 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-align: center;
+  }
+
+  p {
+      margin-bottom: 10px;
+      color: #555;
+      strong {
+          font-weight: bold;
+          color: #333;
+      }
+  }
+
+  .close-popup-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none transparent !important;
+      border: none;
+      color: red !important;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      outline: none;
+  }
+
+  .popup-controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+  }
+
+  button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:first-child {
+          background-color: #007bff;
+          color: white;
+          &:hover {
+              background-color: #0056b3;
+          }
+      }
+      &:nth-child(2) {
+          background-color: #dc3545;
+          color: white;
+          &:hover {
+              background-color: #c82333;
+          }
+      }
+      &:last-child {
+          background-color: #f8f9fa;
+          color: #495057;
+          border: 1px solid #ced4da;
+          &:hover {
+              background-color: #e2e6ea;
+          }
+      }
+  }
+
+  mat-form-field {
+      width: 100%;
+      margin-top: 10px;
+  }
+}
+
+.address-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+
+  mat-form-field {
+      width: 100%;
+  }
 }

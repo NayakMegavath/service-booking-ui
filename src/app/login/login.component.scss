@@ -160,3 +160,28 @@
     border-radius: 5px;
     font-size: 1.2rem;
   }
+
+  .form-group.password-field {
+    position: relative; /* To position the toggle button absolutely */
+  }
+  
+  .form-group.password-field input[type="password"],
+  .form-group.password-field input[type="text"] {
+    padding-right: 40px; /* Make space for the eye icon */
+  }
+  
+  .password-toggle-button {
+    position: absolute;
+    top: 70%;
+    right: 5px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: #777; /* Adjust icon color */
+  }
+  
+  .password-toggle-button .material-icons {
+    font-size: 20px; /* Adjust icon size */
+  }

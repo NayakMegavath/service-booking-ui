@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthDataService } from './auth-data.service'; // Import AuthDataService
+import { AuthDataService } from '../../infrastructure/auth/auth-data.service'; // Import AuthDataService
 
 interface AuthResponse {
   token: string;

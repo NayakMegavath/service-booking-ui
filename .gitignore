@@ -88,3 +88,4 @@ Thumbs.db
 .angular/cache/19.2.7/service-booking-app/vite/deps/package.json
 .angular/cache/19.2.7/service-booking-app/vite/deps_ssr/_metadata.json
 .angular/cache/19.2.7/service-booking-app/vite/deps_ssr/package.json
+*.json

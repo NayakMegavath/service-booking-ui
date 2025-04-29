@@ -1,7 +1,7 @@
 // src/app/logout/logout.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service'; // Adjust the path to your AuthService
+import { AuthService } from '../../domain/application/auth/auth.service'; // Adjust the path to your AuthService
 
 @Component({
   selector: 'app-logout',
