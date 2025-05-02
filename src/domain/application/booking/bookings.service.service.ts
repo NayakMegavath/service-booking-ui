@@ -1,9 +1,12 @@
 // src/app/services/bookings.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Booking } from '../../interface/booking';
 import { environment } from '../../../environments/environment';
+import { NotificationService } from '../notification/notification.service';
+import { LoaderService } from '../loader/loader.service';
+import { UserDataService } from '../../infrastructure/user/user-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +14,14 @@ import { environment } from '../../../environments/environment';
 export class BookingsService {
 private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { 
-    const headers = this.validateToken();
+private bookingHistorySubject = new BehaviorSubject<any>([]);
+bookingHistory$ = this.bookingHistorySubject.asObservable();
+
+  constructor(private http: HttpClient,
+    private readonly userDataService: UserDataService,
+    private readonly notificationService: NotificationService,
+    private readonly loaderService : LoaderService
+  ) { 
   }
 
   validateToken() {
@@ -32,9 +41,19 @@ private apiUrl = environment.apiUrl;
     return this.http.get<Booking>(`${this.apiUrl}/ServiceBooking/${id}`);
   }
 
-  getUserBookingHistory(clientId: number, userType: string): Observable<any[]> {
-    //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
-    return this.http.get<any[]>(`${this.apiUrl}/ServiceBooking/${clientId}/${userType}/history`);
+  getUserBookingHistory(clientId: number, userType: string) {
+    this.loaderService.show();
+    this.userDataService.getUserBookingHistory(clientId, userType).subscribe({
+      next: (history: Booking[]) => {
+        this.bookingHistorySubject.next(history);
+        this.loaderService.show();
+      },
+      error: (error: any) => {
+        this.notificationService.showError('Failed to load booking history.');
+        this.loaderService.hide();
+      }
+    });
+
   }
 
   cancelBooking(bookingId: number): Observable<boolean> {

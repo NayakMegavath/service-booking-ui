@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DataService } from '../../infrastructure/user/user-data.service';
+import { UserDataService } from '../../infrastructure/user/user-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
 
-  constructor(private registerDataService: DataService,
+  constructor(private registerDataService: UserDataService,
   ) { }
 
   registerUser(registerData: any): Observable<any> {

@@ -4,12 +4,10 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../../domain/application/user/user.service';
 import { NotificationService } from '../../domain/application/notification/notification.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ServiceProvider } from '../../domain/interface/service-provider';
-import { ServiceType } from '../../domain/interface/service-type';
-import { Booking } from '../../domain/interface/booking';
 import { RaiseQuery } from '../../domain/interface/query';
 import { SidebarComponent } from '../components/sidebar-component/sidebar.component';
 import { AuthService } from '../../domain/application/auth/auth.service';
+import { UserContext, UserContextService } from '../shared/services/user-context.service';
 
 @Component({
   selector: 'app-dashboard-layout', // Adjust the selector as needed
@@ -36,7 +34,8 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     private readonly userService: UserService,
     private notificationService: NotificationService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private readonly userContextService: UserContextService
   ) {
     this.queryFormControls = this.fb.group({
       serviceType: ['', Validators.required],
@@ -45,9 +44,11 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadUserProfile();
     this.userTypeSubscription = this.authService.getCurrentUserType().subscribe((type: any) => {
       this.currentUserType = type;
+      if(this.currentUserType){
+        this.loadUserProfile();
+      }
     });
   }
 
@@ -65,6 +66,12 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
         this.lastName = user.lastName || '';
         this.userAvatarUrl = user.avatarUrl || null;
         this.clientId = user?.clientId;
+        const context: UserContext = {
+          userType: this.currentUserType,
+          clientId: user.clientId || 0,
+          userName: this.firstName +' '+this.lastName
+        };
+        this.userContextService.setUserContext(context);
       } catch (error) {
         console.error('Error parsing user data:', error);
         this.notificationService.showError('Failed to load user information.');
@@ -76,17 +83,24 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   }
 
   fetchUserProfile(): void {
-    this.userProfileSubscription = this.userService.getUserProfile().subscribe({
+    this.userService.getUserProfile();
+    this.userProfileSubscription = this.userService.userProfile$.subscribe({
       next: (user: any) => {
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.userAvatarUrl = user.avatarUrl || null;
-        this.clientId = user?.clientId;
+        this.clientId = user?.id;
+        const context: UserContext = {
+          userType: this.currentUserType,
+          clientId: this.clientId || 0,
+          userName: this.firstName +' '+this.lastName
+        };
+        this.userContextService.setUserContext(context);
         this.notificationService.showSuccess('Welcome to your dashboard!');
       },
       error: (error: any) => {
         this.notificationService.showError('Failed to load user profile.');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'], { queryParams: { userType: this.currentUserType } });
       }
     });
   }

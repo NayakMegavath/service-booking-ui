@@ -175,8 +175,8 @@
                     <mat-datepicker-toggle matSuffix [for]="editPicker"></mat-datepicker-toggle>
                 </mat-form-field>
             </p>
-            <p><strong>Status:</strong> {{ selectedBookingForDetails?.status }}</p>
-            <p><strong>Amount Paid:</strong> {{ selectedBookingForDetails?.amountPaid }}</p>
+            <p><strong>Status:</strong> {{ selectedBookingForDetails.status }}</p>
+            <p><strong>Amount Paid:</strong> {{ selectedBookingForDetails.amountPaid }}</p>
             <p><strong>Communication Address:</strong></p>
               <span *ngIf="!isEditMode">{{ getDisplayAddress(selectedBookingForDetails) }}</span>
             <div *ngIf="isEditMode" class="address-fields">
@@ -203,10 +203,10 @@
           </div>
 
             <div class="popup-controls">
-                <button *ngIf="selectedBookingForDetails?.status === 'Pending' && !isEditMode" (click)="enableEditMode()">Edit</button>
-                <button *ngIf="isEditMode" (click)="saveEditedBooking()">Edit</button>
-                <button *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress')" (click)="cancelBooking(selectedBookingForDetails.id)">Cancel Booking</button>
-                <button (click)="closeBookingDetailsPopup()">Close</button>
+              <button *ngIf="selectedBookingForDetails?.status === 'Pending' && !isEditMode" (click)="enableEditMode()">Edit</button>
+                <button *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress') && !isEditMode" (click)="cancelBooking(selectedBookingForDetails.id)">Cancel Booking</button>
+                <button class="reschedule-button" *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress') && !isEditMode" (click)="enableRescheduleMode()">Reschedule</button>
+                <button class="reschedule-button" *ngIf="isEditMode" (click)="saveEditedBooking()">Save</button>
             </div>
         </div>
         <div *ngIf="!selectedBookingForDetails">

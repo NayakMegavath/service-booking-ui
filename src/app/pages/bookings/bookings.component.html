@@ -1,58 +1,112 @@
-   <div class="bookings-container">
-    <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
-  
-    <table mat-table [dataSource]="bookings" class="mat-elevation-z8" *ngIf="!isLoading">
-      <ng-container matColumnDef="serviceType">
-        <th mat-header-cell *matHeaderCellDef> Service Type </th>
-        <td mat-cell *matCellDef="let booking"> {{ booking.serviceType }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="providerName">
-        <th mat-header-cell *matHeaderCellDef> Service Provider </th>
-        <td mat-cell *matCellDef="let booking"> {{ booking.providerName }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="bookingDate">
-        <th mat-header-cell *matHeaderCellDef> Booking Date </th>
-        <td mat-cell *matCellDef="let booking"> {{ booking.bookingDate }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="timeSlot">
-        <th mat-header-cell *matHeaderCellDef> Time Slot </th>
-        <td mat-cell *matCellDef="let booking"> {{ booking.timeSlot }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let booking"> {{ booking.status }} </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <div class="bookings-page">
-      <h2>Upcoming Bookings</h2>
-      <div class="card" *ngFor="let booking of upcomingBookings">
-        <h4>{{ booking.service }}</h4>
-        <p>Provider: {{ booking.provider }}</p>
-        <p>Date: {{ booking.date }} | Time: {{ booking.time }}</p>
-        <div class="actions">
-          <button class="details" (click)="viewDetails(booking)">View Details</button>
-          <button class="cancel">Cancel</button>
-        </div>
+<div class="bookings-page">
+
+  <h2 class="text-2xl font-semibold mb-6">Upcoming Bookings</h2>
+
+  <div *ngIf="upcomingBookings.length > 0; else noUpcoming" class="card-grid">
+    <div *ngFor="let booking of upcomingBookings" class="card">
+      <h3 class="text-lg font-bold text-gray-800 mb-3">{{ booking.serviceType }}</h3>
+
+      <div class="text-gray-700 space-y-2">
+        <p><strong>👨‍🔧 Professional:</strong> {{ booking.serviceProfessional.firstName }} {{ booking.serviceProfessional.lastName }}</p>
+        <p><strong>📅 Booking Date:</strong> {{ booking.appointmentDate | date: 'shortDate' }}</p>
+        <p><strong>📌 Status:</strong>
+          <span [ngClass]="{
+            'status-pending': booking.status === 'Pending',
+            'status-confirmed': booking.status === 'Confirmed',
+            'status-cancelled': booking.status === 'Cancelled' || booking.status === 'Rejected'
+          }">{{ booking.status }}</span>
+        </p>
       </div>
-  
-      <h2>Past Bookings</h2>
-      <div class="card past" *ngFor="let booking of pastBookings">
-        <h4>{{ booking.service }}</h4>
-        <p>Provider: {{ booking.provider }}</p>
-        <p>Date: {{ booking.date }} | Time: {{ booking.time }}</p>
-        <div class="actions">
-          <button class="details" (click)="viewDetails(booking)">View Details</button>
-          <button *ngIf="!booking.rated" class="rate">Rate</button>
-          <span *ngIf="booking.rated" class="rated">⭐️ Rated</span>
-        </div>
+
+      <div class="button-container">
+        <button class="view-details-button" (click)="viewDetails(booking)">
+          View Details
+        </button>
       </div>
     </div>
   </div>
+  <ng-template #noUpcoming>
+    <div class="no-data">There are no upcoming bookings to display.</div>
+  </ng-template>
+
+  <h2 class="text-2xl font-semibold my-6">Past Bookings</h2>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search bookings</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search by service or provider">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div *ngIf="pastBookings.length > 0; else noPast" class="past-bookings-table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort class="past-bookings-grid interactive-table">
+
+      <ng-container matColumnDef="serviceType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Service Type</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.serviceType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="providerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Service Professional</th>
+        <td mat-cell *matCellDef="let booking">
+          {{ booking.serviceProfessional.firstName }} {{ booking.serviceProfessional.lastName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bookingDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking Date</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.appointmentDate | date:'mediumDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.address }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let booking">
+          <span class="status-indicator" [ngClass]="{
+            'status-pending': booking.status === 'Pending',
+            'status-confirmed': booking.status === 'Confirmed',
+            'status-completed': booking.status === 'Completed',
+            'status-cancelled': booking.status === 'Cancelled' || booking.status === 'Rejected'
+          }">{{ booking.status }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef>Options</th>
+        <td mat-cell *matCellDef="let booking">
+          <div class="options-container">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Options">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="options-menu">
+              <button mat-menu-item (click)="viewBooking(booking)">
+                <mat-icon color="primary">visibility</mat-icon>
+                <span>View</span>
+              </button>
+              <button mat-menu-item *ngIf="booking.status === 'Pending' || booking.status === 'Confirmed'" (click)="editBooking(booking)">
+                <mat-icon color="accent">edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item *ngIf="booking.status === 'Pending' || booking.status === 'Confirmed'" (click)="removeBooking(booking)">
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Remove</span>
+              </button>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="gridDisplayedColumns" class="past-bookings-header-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: gridDisplayedColumns;" class="booking-row"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="past-bookings-paginator"></mat-paginator>
+  </div>
+
+  <ng-template #noPast>
+    <div class="no-data">There are no past bookings to display.</div>
+  </ng-template>
+</div>

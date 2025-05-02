@@ -1,96 +1,212 @@
-/* src/app/bookings/bookings.component.scss */
-.bookings-container {
-  padding: 20px;
-  //margin-left: 280px;
-}
-
-table {
-  width: 100%;
-  margin-top: 20px;
-}
-
-mat-spinner {
-  display: block;
-  margin: 50px auto;
-}
-
 .bookings-page {
-  max-width: 90%; /* Adjust as needed */
-  margin: 2rem auto; /* Center the content with auto margins */
-  padding: 1rem;
+  max-width: 95%;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f8f9fa; /* Light background for the container */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .bookings-page h2 {
-  margin-bottom: 1rem;
-  color: #333;
+  color: #37474f; /* Darker gray for heading */
+  margin-bottom: 1.2rem;
+  border-bottom: 2px solid #e0e0e0; /* Subtle divider */
+  padding-bottom: 0.5rem;
 }
 
-.bookings-page .card {
-  background: #ffffff;
-  padding: 1.2rem;
-  margin-bottom: 1rem;
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #9e9e9e;
+  margin: 2rem 0;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+
+  .mat-icon {
+    color: #757575;
+  }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  padding: 1.5rem;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.bookings-page .card h4 {
-  margin: 0 0 0.5rem 0;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  margin-bottom: 1rem;
   color: #1e88e5;
 }
 
-.bookings-page .card p {
-  margin-bottom: 0.5rem;
-  color: #555;
+.card strong {
+  font-weight: 600;
 }
 
-.bookings-page .card .actions {
-  margin-top: 1rem;
+.button-container {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
-.bookings-page .card .actions button {
+.view-details-button {
   padding: 0.75rem 1.5rem;
+  background-color: #1e88e5;
+  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
   font-size: 1rem;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.bookings-page .card .actions .details {
-  background-color: #1e88e5;
-  color: white;
-}
-
-.bookings-page .card .actions .details:hover {
+.view-details-button:hover {
   background-color: #1565c0;
 }
 
-.bookings-page .card .actions .cancel {
-  background-color: #e53935;
+.past-bookings-table-wrapper {
+  overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.past-bookings-grid {
+  width: 100%;
+  border-collapse: collapse;
+
+  th.mat-header-cell {
+    color: #546e7a; /* Darker gray header text */
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  td.mat-cell {
+    padding: 1rem;
+    font-size: 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #fcfcfc; /* Subtle hover effect on rows */
+    }
+  }
+
+  tr.booking-row:nth-child(even) td.mat-cell {
+    background-color: #f9f9f9; /* Slightly different background for even rows */
+  }
+
+  th.mat-sort-header-sorted,
+  th.mat-sort-header-button:hover {
+    color: #1e88e5; /* Highlight on sort/hover */
+  }
+}
+
+.past-bookings-header-row {
+  background-color: #e0e0e0; /* Grey background for past bookings header */
+
+  th.mat-header-cell {
+    color: #37474f; /* Darker text on grey background */
+  }
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: white;
+
+  &.status-pending {
+    background-color: #ffc107; /* Amber */
+  }
+
+  &.status-confirmed {
+    background-color: #4caf50; /* Green */
+  }
+
+  &.status-completed {
+    background-color: #2e7d32; /* Darker Green */
+  }
+
+  &.status-cancelled, &.status-rejected {
+    background-color: #f44336; /* Red */
+  }
 }
 
-.bookings-page .card .actions .cancel:hover {
-  background-color: #b71c1c;
+.past-bookings-paginator {
+  background-color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: flex-end; /* Align pagination to the right */
+  align-items: center;
+
+  .mat-mdc-paginator-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-mdc-paginator-page-size {
+    margin-right: 1rem;
+  }
+
+  .mat-mdc-paginator-range-actions {
+    margin-left: 1rem;
+  }
 }
 
-.bookings-page .card .actions .rate {
-  background-color: #43a047;
-  color: white;
+.options-container {
+  display: flex;
+  justify-content: center;
 }
 
-.bookings-page .card .actions .rate:hover {
-  background-color: #2e7d32;
+.options-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  color: #757575; /* Gray color for the options icon */
 }
 
-.bookings-page .card .actions .rated {
-  color: #ffca28;
-  font-weight: bold;
+.options-menu {
+  /* Add any specific styling for the menu if needed */
 }
 
-.bookings-page .past {
-  opacity: 0.85;
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  .mat-icon {
+    font-size: 1.1rem;
+  }
 }

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Booking } from '../../interface/booking';
 import { RaiseQuery } from '../../interface/query';
-import { UserProfile } from '../../interface/user-profile';
+import { Router } from '@angular/router';
+import { UserDataService } from '../../infrastructure/user/user-data.service';
+import { NotificationService } from '../notification/notification.service';
+import { LoaderService } from '../loader/loader.service';
 
 
 @Injectable({
@@ -12,34 +15,52 @@ import { UserProfile } from '../../interface/user-profile';
 })
 export class UserService {
   private apiUrl = environment.apiUrl; // Adjust your API endpoint
+private userProfileSubject = new BehaviorSubject<any>([]);
+userProfile$ = this.userProfileSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private router: Router,
+    private readonly userDataService: UserDataService,
+    private readonly notificationService: NotificationService,
+    private readonly loaderService: LoaderService
+  ) {}
 
-  getUserProfile(): Observable<UserProfile> {
+  getUserProfile() {
     const headers = this.validateToken();
-    return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`, { headers });
+    this.loaderService.show();
+    this.userDataService.getUserProfile(headers).subscribe({
+          next: (user: any) => {
+            this.userProfileSubject.next(user);
+            this.notificationService.showSuccess('Welcome to your dashboard!');
+            this.loaderService.show();
+          },
+          error: (error: any) => {
+            this.notificationService.showError('Failed to load user profile.');
+            this.router.navigate(['/login']);
+          }
+        });
   }
 
   getServiceProviders(serviceType: string): Observable<any[]> {
-    const headers = this.validateToken();
+    // const headers = this.validateToken();
     //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
     return this.http.get<any[]>(`${this.apiUrl}/ServiceProfessional/${serviceType}/providers`);
   }
 
-  getUserBookingHistory(clientId: number, userType: string): Observable<any[]> {
-    const headers = this.validateToken();
-    //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
-    return this.http.get<Booking[]>(`${this.apiUrl}/User/${clientId}/${userType}/history`, { headers });
-  }
+  // getUserBookingHistory(clientId: number, userType: string): Observable<any[]> {
+  //   // const headers = this.validateToken();
+  //   //const params = new HttpParams().set('serviceType', serviceType); // Pass the service type as a query parameter
+  //   return this.http.get<Booking[]>(`${this.apiUrl}/User/${clientId}/${userType}/history`);
+  // }
 
   createBooking(clientId: number, bookingData: Booking): Observable<any> {
-    const headers = this.validateToken();
-    return this.http.post(`${this.apiUrl}/bookings/${clientId}`, bookingData, { headers });
+    // const headers = this.validateToken();
+    return this.http.post(`${this.apiUrl}/bookings/${clientId}`, bookingData);
   }
 
   submitQuery(queryData: RaiseQuery): Observable<any> {
-    const headers = this.validateToken();
-    return this.http.post(`${this.apiUrl}/queries`, queryData, { headers });
+    // const headers = this.validateToken();
+    return this.http.post(`${this.apiUrl}/queries`, queryData);
   }
   
   validateToken() {
