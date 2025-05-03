@@ -1,0 +1,37 @@
+<nav class="sidebar" [class.sidebar-collapsed]="isSidebarCollapsed">
+  <div class="profile-container">
+    <div class="profile-avatar">
+      <img src="assets/images/user-avatar.png" alt="User Profile" class="profile-img" />
+    </div>
+    <div class="profile-name">John Doe</div>
+    <button class="menu-toggle-button" (click)="toggleSidebar()">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+  <ul>
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="nav-icon material-icons">dashboard</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/bookings" routerLinkActive="active">
+        <span class="nav-icon material-icons">calendar_today</span>
+        <span class="nav-text">Bookings</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">
+        <span class="nav-icon material-icons">person</span>
+        <span class="nav-text">Profile</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/login']" [queryParams]="{ userType: userType }">
+        <span class="material-icons">logout</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>

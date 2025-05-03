@@ -1,0 +1,218 @@
+<div class="dashboard-container">
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Welcome, {{ userName }}!</h1>
+
+    <mat-expansion-panel class="program-info-expansion">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          How to Book a Service
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Welcome to our service booking platform! We're here to make it easy for you to find and book the services you need. Here's a simple guide to get started:</p>
+      <ol>
+        <li><strong>Browse Services:</strong> Use the "Search Service" dropdown below to explore the different types of services we offer.</li>
+        <li><strong>Select a Service:</strong> Once you find the service you need, click on it to view available providers and details.</li>
+        <li><strong>Choose a Provider and Time:</strong> Select a service provider from the list and choose a convenient date and time slot for your booking.</li>
+        <li><strong>Review and Confirm:</strong> Double-check your booking details, including the service, provider, date, and time. Then, click "Confirm Booking" to finalize your request.</li>
+        <li><strong>Enjoy Your Service:</strong> We'll notify you once your booking is confirmed. The service provider will arrive at the scheduled time to assist you.</li>
+      </ol>
+      <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+    </mat-expansion-panel>
+
+    <!-- Service Search -->
+    <div class="search-providers-dropdown">
+      <label for="providerSearch">Search Service</label>
+      <div class="dropdown-wrapper">
+        <span class="search-icon"></span>
+        <select id="providerSearch" [(ngModel)]="selectedService" (ngModelChange)="openBookingWizard(selectedService)">
+          <option value="" selected>Select a Service</option>
+          <option *ngIf="services?.length === 0" value="" disabled>No data to show</option>
+          <option *ngFor="let provider of services" [value]="provider">
+            {{ provider }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Service Icons -->
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services">
+        <img [src]="getServiceIcon(service)" alt="{{ service }}" />
+        <p>{{ service }}</p>
+        <button class="book-button" (click)="openBookingWizard(service)">Book</button>
+      </div>
+    </div>
+
+    <!--Service Booking Wizard-->
+    <div class="booking-wizard-overlay" *ngIf="isBookingWizardOpen">
+      <div class="booking-wizard">
+        <button class="close-wizard-icon" (click)="closeBookingWizard()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="wizard-header">
+          <h2>{{ wizardTitle }}</h2>
+          <p>{{ wizardInfo }}</p>
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="wizardProgress"></div>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+          <div *ngIf="currentWizardStep === 1">
+            <h3>Search Service Providers</h3>
+            <div class="provider-card-grid">
+              <div
+                *ngFor="let provider of serviceProviders"
+                class="provider-card"
+                [class.selected]="selectedProviderId === provider.id"
+                (click)="selectProviderCard(provider.id)"
+              >
+                <h4>{{ provider.firstName }} {{ provider.lastName }}</h4>
+                <p>Experience: {{ provider?.experience }} years</p>
+                <p>Distance: {{ provider?.distance ?? 0}} Kms</p>
+                <p>Rating: {{ provider?.rating }}</p>
+              </div>
+            </div>
+            <div class="wizard-controls">
+              <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
+              <button class="proceed-button" [disabled]="!selectedProviderId" (click)="nextWizardStep()">Proceed</button>
+            </div>
+          </div>
+
+          <div *ngIf="currentWizardStep === 2">
+            <h3>Schedule Booking</h3>
+            <p>Selected Provider: {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
+
+            <div class="date-picker-section">
+              <mat-form-field appearance="outline">
+                <mat-label>Select a Date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [(ngModel)]="selectedDate"
+                  [matDatepickerFilter]="dateFilter"
+                  (dateChange)="onDateChange($event)"
+                  (input)="validateManualDateInput($event)"
+                />
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-hint *ngIf="!selectedDate && isManualDateInvalid">Please select a valid date.</mat-hint>
+                <mat-hint *ngIf="isPastDateSelected">Past dates are disabled.</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="wizard-controls">
+              <button class="back-button" (click)="prevWizardStep()">Back</button>
+              <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
+              <button class="complete-button" [disabled]="!selectedDate || isPastDateSelected" (click)="nextWizardStep()">Proceed</button>
+            </div>
+          </div>
+
+          <div *ngIf="currentWizardStep === 3">
+            <h3>Review Booking</h3>
+            <p><strong>Provider:</strong> {{ selectedProviderDetails?.firstName }}  {{ selectedProviderDetails?.lastName }} ({{selectedService}})</p>
+            <p><strong>Date:</strong> {{ formatDateForDisplay(selectedDate) }}</p>
+            <p class="provider-contact-note">
+              📞 The service provider will reach out to you soon to confirm their availability and schedule the final appointment.
+            </p>
+
+            <div class="wizard-controls">
+              <button class="back-button" (click)="prevWizardStep()">Back</button>
+              <button class="cancel-button" (click)="closeBookingWizard()">Cancel</button>
+              <button class="complete-button" (click)="nextWizardStep()">Proceed</button>
+            </div>
+          </div>
+
+          <div *ngIf="currentWizardStep === 4" class="booking-completed">
+            <h3>Completed</h3>
+            <h2 class="success-message">Your booking is successful!</h2>
+            <div class="wizard-controls">
+              <button class="close-button" (click)="closeBookingWizard()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Booking -->
+    <div class="upcoming-bookings">
+      <h2>Upcoming Bookings</h2>
+      <div class="booking-card-grid">
+        <div *ngFor="let booking of inProgressBookings" class="booking-card">
+          <p><strong>Service Professional:</strong> {{ booking?.serviceProfessional?.firstName }} {{ booking?.serviceProfessional?.lastName }}</p>
+          <p><strong>Service:</strong> {{ booking?.serviceType }}</p>
+          <p><strong>Date:</strong> {{ booking?.appointmentDate | date: 'fullDate' }}</p>
+          <p><strong>Status:</strong> {{ booking?.status }}</p>
+          <p><strong>Amount:</strong> {{ booking?.amountPaid }}</p>
+          <button (click)="viewDetails(booking)">View Details</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="booking-details-overlay" *ngIf="isBookingDetailsPopupVisible">
+    <div class="booking-details-popup">
+        <button class="close-popup-icon" (click)="closeBookingDetailsPopup()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2>Booking Details</h2>
+        <div *ngIf="selectedBookingForDetails">
+            <p><strong>Service Professional:</strong> {{ selectedBookingForDetails?.serviceProfessional?.firstName }} {{ selectedBookingForDetails?.serviceProfessional?.lastName }}</p>
+            <p><strong>Service Type:</strong> {{ selectedBookingForDetails?.serviceType }}</p>
+            <p><strong>Date:</strong>
+                <span *ngIf="!isEditMode">{{ selectedBookingForDetails?.appointmentDate | date: 'fullDate' }}</span>
+                <mat-form-field appearance="outline" *ngIf="isEditMode">
+                    <mat-label>Edit Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="editPicker"
+                        [(ngModel)]="editedDate"
+                        (dateChange)="onDateChange($event)"
+                    />
+                    <mat-datepicker #editPicker></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="editPicker"></mat-datepicker-toggle>
+                </mat-form-field>
+            </p>
+            <p><strong>Status:</strong> {{ selectedBookingForDetails.status }}</p>
+            <p><strong>Amount Paid:</strong> {{ selectedBookingForDetails.amountPaid }}</p>
+            <p><strong>Communication Address:</strong></p>
+              <span *ngIf="!isEditMode">{{ getDisplayAddress(selectedBookingForDetails) }}</span>
+            <div *ngIf="isEditMode" class="address-fields">
+              <mat-form-field appearance="outline">
+                  <mat-label>Address Line 1</mat-label>
+                  <input matInput [(ngModel)]="editedAddressLine1">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Address Line 2 (Optional)</mat-label>
+                  <input matInput [(ngModel)]="editedAddressLine2">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput [(ngModel)]="editedCity">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <input matInput [(ngModel)]="editedState">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Zip Code</mat-label>
+                  <input matInput [(ngModel)]="editedZip">
+              </mat-form-field>
+          </div>
+
+            <div class="popup-controls">
+              <button *ngIf="selectedBookingForDetails?.status === 'Pending' && !isEditMode" (click)="enableEditMode()">Edit</button>
+                <button *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress') && !isEditMode" (click)="cancelBooking(selectedBookingForDetails.id)">Cancel Booking</button>
+                <button class="reschedule-button" *ngIf="(selectedBookingForDetails?.status === 'Pending' || selectedBookingForDetails?.status === 'InProgress') && !isEditMode" (click)="enableRescheduleMode()">Reschedule</button>
+                <button class="reschedule-button" *ngIf="isEditMode" (click)="saveEditedBooking()">Save</button>
+            </div>
+        </div>
+        <div *ngIf="!selectedBookingForDetails">
+            <p>No booking details available.</p>
+        </div>
+    </div>
+</div>
+
+</div>

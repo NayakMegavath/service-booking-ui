@@ -1,0 +1,133 @@
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #2e3a59;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: width 0.3s ease-in-out; /* Add transition for smooth animation */
+
+  &.sidebar-collapsed {
+    width: 60px; /* Collapsed width */
+
+    .profile-container {
+      .profile-name {
+        display: none; /* Hide name when collapsed */
+      }
+    }
+
+    ul {
+      li {
+        .nav-text {
+          display: none; /* Hide text when collapsed */
+        }
+
+        a {
+          justify-content: center; /* Center icon in collapsed state */
+          padding: 10px 10px; /* Adjust padding */
+        }
+      }
+    }
+  }
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+  justify-content: space-between; /* Space out avatar/name and menu button */
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    background-color: #455a64;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    flex-grow: 1; /* Allow name to take available space */
+  }
+
+  .menu-toggle-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px; /* Adjust menu icon size */
+    padding: 0;
+    outline: none;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+
+  li {
+    margin-bottom: 15px;
+    width: 100%;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.2s ease;
+
+      .nav-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #455a64;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 15px;
+        font-size: 18px;
+        font-family: 'Material Icons';
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        text-rendering: optimizeLegibility;
+        line-height: 1;
+        text-transform: none;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+
+      .nav-text {
+        flex-grow: 1;
+      }
+
+      &:hover,
+      &.active {
+        background-color: #1a2238;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.app-container {
+    display: flex;
+    min-height: 100vh; /* Ensure the container takes full viewport height */
+  }
+  
+  app-sidebar {
+    /* Sidebar styles are already in sidenavigation.component.scss */
+  }
+  
+  .main-content {
+    flex-grow: 1; /* Allow main content to take remaining width */
+    transition: margin-left 0.3s ease-in-out; /* Match sidebar transition */
+    margin-left: 240px; /* Initial margin to accommodate the sidebar */
+    display: flex;
+    flex-direction: column; /* To stack router-outlet and loader */
+  }
+  
+  .main-content.sidebar-collapsed {
+    margin-left: 60px; /* Adjust margin when sidebar is collapsed */
+  }
+  
+  app-loader {
+    /* Styles for your loader */
+    /* You might want to position it absolutely or fix it */
+  }
+  
+  /* Style the content rendered within the router-outlet (e.g., client-dashboard) */
+  .main-content > :first-child { /* Target the client-dashboard or other routed component */
+    flex-grow: 1; /* Allow it to fill the remaining height if needed */
+    display: flex;
+    flex-direction: column; /* If your dashboard needs to manage its own internal layout */
+  }

@@ -1,0 +1,13 @@
+<div class="avatar-dropdown">
+    <div class="avatar-icon" (click)="toggleDropdown()">
+      <img [src]="userAvatarUrl" alt="User Avatar" *ngIf="userAvatarUrl; else defaultAvatar">
+      <ng-template #defaultAvatar>
+        <div class="default-avatar"></div>
+      </ng-template>
+    </div>
+    <div class="dropdown-menu" *ngIf="isDropdownVisible">
+      <a routerLink="/profile">Profile</a>
+      <a routerLink="/settings">Settings</a>
+      <a routerLink="/">Logout</a>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+   <div class="profile-card">
+    <img [src]="profile.avatar" alt="Profile Image" class="avatar" />
+    <h2>{{ profile.name }}</h2>
+    <p>Email: {{ profile.email }}</p>
+    <p>Phone: {{ profile.phone }}</p>
+  
+    <div class="interests">
+      <h4>Service Interests</h4>
+      <ul>
+        <li *ngFor="let service of profile.serviceInterests">
+          🔧 {{ service }}
+        </li>
+      </ul>
+    </div>
+  
+    <button>Edit Profile</button>
+  </div>
+  

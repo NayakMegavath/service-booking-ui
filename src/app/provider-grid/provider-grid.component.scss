@@ -1,0 +1,254 @@
+.dashboard-container {
+    padding: 20px;
+    background-color: #f4f6f8; /* Light background */
+    min-height: 100vh;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info {
+    /* Styles for welcome text */
+  }
+  
+  .welcome {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .dashboard-main {
+    /* Styles for the main content area */
+  }
+  
+  /* Initial Dashboard View Styles */
+  .initial-dashboard-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .booking-counts {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px; /* Adjust as needed */
+  }
+  
+  .card h3 {
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 1.8rem;
+    color: #007bff; /* Blue accent color */
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .booking-overview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .booking-overview p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .book-service-button {
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+  
+  /* Booking Wizard Styles */
+  .booking-wizard {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 30px auto;
+  }
+  
+  .wizard-title {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .wizard-info {
+    color: #777;
+    margin-bottom: 25px;
+  }
+  
+  .wizard-content {
+    margin-bottom: 30px;
+  }
+  
+  /* Search Providers Step */
+  .search-providers-step {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .search-providers-step label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .search-providers-step select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Review Booking Step */
+  .review-booking-step {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .review-booking-step h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .review-booking-step div {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .review-booking-step label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .review-booking-step select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Complete Booking Step */
+  .complete-booking-step {
+    text-align: center;
+  }
+  
+  .complete-booking-step h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .complete-booking-step div {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .complete-info {
+    color: #777;
+    margin-top: 20px;
+  }
+  
+  /* Wizard Navigation Buttons */
+  .wizard-navigation {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .cancel-button {
+    background-color: white;
+    color: red;
+    border: 1px solid red;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #ffe0e0;
+    }
+  }
+  
+  .back-button,
+  .next-button {
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #0056b3;
+    }
+  
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+  
+  .close-button {
+    background-color: #888; /* Grey */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #555;
+    }
+  }

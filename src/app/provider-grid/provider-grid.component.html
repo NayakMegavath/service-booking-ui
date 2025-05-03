@@ -1,0 +1,29 @@
+<div class="provider-grid">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th (click)="sort('experience')">Experience</th>
+          <th (click)="sort('rating')">Rating</th>
+          <th (click)="sort('distance')">Distance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let provider of sortedProviders">
+          <td>
+            <input
+              type="checkbox"
+              [value]="provider.id"
+              [checked]="provider.id === selectedProviderId"
+              (change)="selectProvider(provider.id)"
+            />
+          </td>
+          <td>{{ provider.name }}</td>
+          <td>{{ provider.experience }}</td>
+          <td>{{ provider.rating }}</td>
+          <td>{{ provider.distance }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

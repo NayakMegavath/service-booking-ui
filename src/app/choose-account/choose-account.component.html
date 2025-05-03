@@ -1,0 +1,31 @@
+<app-header></app-header>
+  <div class="choose-account-page">
+    <h2>Choose Your Account Type</h2>
+    <p>Tell us how you'd like to get started:</p>
+  
+    <div class="account-options-container">
+      <div class="account-option">
+        <h3>I'm a Client</h3>
+        <p>Looking to book trusted professionals for various services like home repairs, cleaning, and more. Find reliable help quickly and easily.</p>
+        <button class="btn primary" (click)="navigateToRegister('client')">Start as Client</button>
+      </div>
+  
+      <div class="account-option">
+        <h3>I'm a Service Professional</h3>
+        <p>Offer your skills and services to a wide range of customers. Grow your business and manage your bookings efficiently.</p>
+        <button class="btn primary" (click)="navigateToRegister('service-provider')">Start as Service Provider</button>
+      </div>
+      <!-- <div class="account-options">
+        <button class="btn primary" (click)="navigateToRegister('client')">Start as Client</button>
+        <button class="btn primary" (click)="navigateToRegister('service-provider')">Start as Service Provider</button>
+      </div> -->
+    </div>
+  
+    <button class="back-button" (click)="goBack()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+        <path fill-rule="evenodd" d="M15.75 19.5a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.44 6.44a.75.75 0 010 1.06z" clip-rule="evenodd" />
+      </svg>
+      Back to Home
+    </button>
+  </div>
+  <app-footer></app-footer>

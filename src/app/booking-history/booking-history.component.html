@@ -1,0 +1,29 @@
+<div class="booking-history-section">
+    <h2>Service Booking History</h2>
+    <div *ngIf="bookingHistory.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Service Type</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Service Provider Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookingHistory">
+            <td>{{ booking.serviceType }}</td>
+            <td>{{ booking.bookingDate }}</td>
+            <td>{{ booking.timeSlot }}</td>
+            <td>{{ booking.providerName }}</td>
+            <td>{{ booking.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="bookingHistory.length === 0">
+      <p>No booking history available yet.</p>
+    </div>
+  </div>
+  

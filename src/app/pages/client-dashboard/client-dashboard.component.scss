@@ -1,0 +1,626 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+
+  .search-providers-dropdown {
+    margin-bottom: 20px;
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .dropdown-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      background-color: #f9f9f9;
+      padding: 5px 10px;
+      .search-icon {
+        margin-right: 10px;
+        /* Add any specific styles for your search icon here */
+      }
+      select {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        padding: 8px 0;
+        font-size: 16px;
+        color: #555;
+        -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
+        -moz-appearance: none;    /* Remove default arrow in Gecko browsers */
+        appearance: none;         /* Standard way to remove default arrow */
+        background-image: url('/assets/icons/dropdown-arrow.png'); /* Path to your arrow icon */
+        background-repeat: no-repeat;
+        background-position: right 10px center; /* Adjust position as needed */
+        background-size: 20px; /* Adjust size as needed */
+        padding-right: 30px; /* Make space for the arrow */
+      }
+    }
+  }
+}
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #2e3a59;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: width 0.3s ease-in-out;
+
+  &.sidebar-collapsed {
+    width: 60px;
+
+    .profile-container {
+      .profile-name {
+        display: none;
+      }
+    }
+
+    ul {
+      li {
+        .nav-text {
+          display: none;
+        }
+        a {
+          justify-content: center;
+          padding: 10px 10px;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 240px; /* Match sidebar width */
+  padding-top: 1rem; /* Add some top padding to move content down if needed */
+  /* Remove or adjust margin-top to move content up */
+  margin-top: -1rem; /* Adjust this negative value to move content up */
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f3f4f6;
+  overflow-y: auto;
+
+  .search-section {
+    margin-bottom: 1.5rem;
+    select {
+      padding: 0.5rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    .service-card {
+      width: 120px;
+      text-align: center;
+      background: white;
+      border-radius: 15px;
+      padding: 1.8rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      img {
+        height: 120px;
+        margin-bottom: 0.5rem;
+      }
+      .book-button { /* Style for the Book button */
+        background-color: #007bff; /* Modern blue color */
+        color: white;
+        border: none;
+        border-radius: 8px; /* More rounded corners */
+        padding: 10px 20px; /* Increased padding for better touch area */
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold; /* Make the text stand out */
+        transition: background-color 0.3s ease; /* Smooth hover transition */
+        width: 90%; /* Make the button wider within the card */
+        margin-top: 0.75rem; /* Add some space above the button */
+
+        &:hover {
+          background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        &:focus {
+          outline: none; /* Remove default focus outline */
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Add a custom focus style */
+        }
+
+        &:active {
+          background-color: #004085; /* Even darker blue on active */
+        }
+      }
+    }
+  }
+  .upcoming-bookings {
+    margin-top: 2rem;
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .booking-card-grid {
+      display: grid; /* Enable grid container */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+      gap: 1rem; /* Spacing between rows and columns */
+    }
+    .booking-card {
+      background: white;
+      padding: 1rem;
+      border-left: 5px solid #3b82f6;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      button {
+        margin-top: 0.5rem;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+.program-info-expansion {
+  margin-bottom: 1.5rem;
+}
+
+/* Booking Wizard Styles */
+.booking-wizard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-wizard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 750px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  height: 550px;
+  padding: 0; /* Remove padding from the main container */
+}
+
+.wizard-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #eee;
+  z-index: 10;
+  margin: 0;
+  border-radius: 0 0 8px 8px;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+.close-wizard-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  outline: none;
+}
+
+.wizard-header {
+  padding: 20px; /* Add padding to the header */
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.wizard-header h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.wizard-header p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  background-color: #f3f3f3;
+  height: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.progress {
+  background-color: blue;
+  height: 100%;
+  border-radius: 5px;
+  width: 0%;
+}
+
+.wizard-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px; /* Add padding to the body */
+  padding-bottom: 70px; /* Adjust if button height changes */
+}
+
+/* Step 1: Search Providers */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Wider provider items */
+  gap: 15px; /* Increased gap */
+  margin-bottom: 30px; /* Increased margin */
+}
+
+.provider-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Rounded corners for items */
+  background-color: #f9f9f9; /* Light background for items */
+}
+
+.provider-selection {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.provider-selection input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Step 2: Review Booking */
+.time-slot-selection {
+  margin-bottom: 30px; /* Increased margin */
+}
+
+.time-slot-selection label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.time-slot-selection select {
+  width: 100%;
+  padding: 12px; /* Larger padding */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Wizard Controls */
+
+.cancel-button {
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #ffe0e0;
+  }
+}
+
+.proceed-button, .complete-button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #337ab7;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.back-button, .close-button {
+  background-color: #f3f3f3;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 12px 20px; /* Larger padding */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+  
+}
+
+.provider-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.provider-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: blue;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    border-color: blue;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: #e0f7fa;
+  }
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  p {
+    margin-bottom: 3px;
+    color: #666;
+    font-size: 14px;
+  }
+} 
+
+.date-picker {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.time-slot-selection {
+  margin-bottom: 20px;
+}
+
+.time-slot-selection label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.time-slot-selection select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.mat-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.date-picker-section {
+  margin-bottom: 15px;
+
+  mat-form-field {
+    width: 30%; /* Make the date picker take full width */
+  }
+
+  mat-hint {
+    font-size: 12px;
+    color: red; /* Inherit color by default */
+  }
+
+  mat-hint[ng-reflect-ng-if="false"] { /* Target the "Please select a valid date." hint when visible */
+    color: red;
+  }
+
+  mat-hint[ng-reflect-ng-if="true"] { /* Target the "Past dates are disabled." hint when visible */
+    color: red; /* Set this to red as well */
+  }
+}
+
+.date-required-hint {
+  color: red;
+}
+
+.booking-completed {
+  text-align: center;
+  padding: 30px;
+
+  .success-message {
+    color: green;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+}
+
+.booking-disclaimer {
+  margin-top: 50px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #777;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  strong {
+    color: #555;
+  }
+}
+.provider-contact-note {
+  margin-top: 82px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Booking Details Pop-up Styles */
+.booking-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001; /* Higher than the booking wizard */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.booking-details-popup {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px; 
+  max-height: 400px;
+  padding: 20px;
+  position: relative;
+  max-height: 80vh; /* Set a maximum height relative to the viewport */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+
+  h2 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-align: center;
+  }
+
+  p {
+      margin-bottom: 10px;
+      color: #555;
+      strong {
+          font-weight: bold;
+          color: #333;
+      }
+  }
+
+  .close-popup-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none transparent !important;
+      border: none;
+      color: red !important;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      outline: none;
+  }
+
+  .popup-controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+  }
+
+  button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:first-child {
+          background-color: #007bff;
+          color: white;
+          &:hover {
+              background-color: #0056b3;
+          }
+      }
+      &:nth-child(2) {
+          background-color: #dc3545;
+          color: white;
+          &:hover {
+              background-color: #c82333;
+          }
+      }
+      &:last-child {
+          background-color: #f8f9fa;
+          color: #495057;
+          border: 1px solid #ced4da;
+          &:hover {
+              background-color: #e2e6ea;
+          }
+      }
+  }
+
+  mat-form-field {
+      width: 100%;
+      margin-top: 10px;
+  }
+}
+
+.address-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+
+  mat-form-field {
+      width: 100%;
+  }
+}
+.reschedule-button {
+  background-color: green !important;
+  color: white !important; 
+}
