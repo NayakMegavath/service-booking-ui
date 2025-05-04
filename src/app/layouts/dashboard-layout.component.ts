@@ -28,6 +28,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   query: RaiseQuery = { serviceType: '', providerName: '', description: '' };
   queryFormControls: FormGroup;
   userTypeSubscription!: Subscription;
+  loginUserName!: string;
 
   constructor(
     private router: Router,
@@ -66,11 +67,13 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
         this.lastName = user.lastName || '';
         this.userAvatarUrl = user.avatarUrl || null;
         this.clientId = user?.clientId;
+        this.loginUserName = this.firstName +' '+this.lastName;
         const context: UserContext = {
           userType: this.currentUserType,
           clientId: user.clientId || 0,
-          userName: this.firstName +' '+this.lastName
+          userName: this.firstName +' '+this.lastName,
         };
+
         this.userContextService.setUserContext(context);
       } catch (error) {
         console.error('Error parsing user data:', error);
@@ -90,6 +93,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
         this.lastName = user.lastName;
         this.userAvatarUrl = user.avatarUrl || null;
         this.clientId = user?.id;
+        this.loginUserName = this.firstName +' '+this.lastName;
         const context: UserContext = {
           userType: this.currentUserType,
           clientId: this.clientId || 0,

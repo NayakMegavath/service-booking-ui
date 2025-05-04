@@ -1,18 +1,341 @@
-   <div class="profile-card">
-    <img [src]="profile.avatar" alt="Profile Image" class="avatar" />
-    <h2>{{ profile.name }}</h2>
-    <p>Email: {{ profile.email }}</p>
-    <p>Phone: {{ profile.phone }}</p>
-  
-    <div class="interests">
-      <h4>Service Interests</h4>
-      <ul>
-        <li *ngFor="let service of profile.serviceInterests">
-          🔧 {{ service }}
-        </li>
-      </ul>
+<!-- <div class="profile-container">
+  <div class="profile-card">
+    <div class="avatar-section">
+      <div class="avatar-wrapper">
+        <img [src]="profile.avatar" alt="Profile Image" class="avatar" />
+        <div class="camera-icon-overlay" (click)="uploadAvatar()">
+          <span class="material-icons">camera_alt</span>
+        </div>
+        <input type="file" #fileInput accept="image/*" capture="user" (change)="onFileSelected($event)" style="display: none;">
+      </div>
+      <h2>{{ profile.name }}</h2>
     </div>
-  
-    <button>Edit Profile</button>
+
+    <div class="info-section">
+      <h3>Personal Information</h3>
+      <div class="info-row">
+        <span class="material-icons">person</span>
+        <label>Name:</label>
+        <span>{{ profile.name }}</span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Contact Details</h3>
+      <div class="info-row">
+        <span class="material-icons">email</span>
+        <label>Email:</label>
+        <span>{{ profile.email }}</span>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">phone</span>
+        <label>Phone:</label>
+        <span>{{ profile.phone }}</span>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">location_on</span>
+        <label>Address:</label>
+        <span>{{ profile.address }}</span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Account Settings</h3>
+      <div class="info-row">
+        <span class="material-icons">lock</span>
+        <button type="button" class="link-button" (click)="openChangePasswordPopup()">Change Password</button>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">notifications</span>
+        <button type="button" class="link-button" (click)="openNotificationPreferencesPopup()">Notification Preferences</button>
+      </div>
+    </div>
+
+    <button class="edit-button" (click)="openEditProfilePopup()">Edit Profile</button>
+
+    <div class="modal-overlay" *ngIf="showEditProfilePopup">
+      <div class="modal-content edit-profile-modal">
+        <h2>Edit Profile</h2>
+        <form #editProfileForm="ngForm" (ngSubmit)="saveProfile(editProfileForm)">
+          <div class="form-group">
+            <label for="editName">Name:</label>
+            <input type="text" id="editName" name="editName" [(ngModel)]="editProfileData.name" required>
+          </div>
+          <div class="form-group">
+            <label for="editEmail">Email:</label>
+            <input type="email" id="editEmail" name="editEmail" [(ngModel)]="editProfileData.email" required email>
+          </div>
+          <div class="form-group">
+            <label for="editPhone">Phone:</label>
+            <input type="tel" id="editPhone" name="editPhone" [(ngModel)]="editProfileData.phone">
+          </div>
+          <div class="form-group">
+            <label for="editAddress">Address:</label>
+            <textarea id="editAddress" name="editAddress" [(ngModel)]="editProfileData.address"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="!editProfileForm.valid || savingProfile">
+              <span *ngIf="savingProfile">Saving...</span>
+              <span *ngIf="!savingProfile">Update</span>
+            </button>
+            <button type="button" (click)="closeEditProfilePopup()">Cancel</button>
+          </div>
+          <div *ngIf="profileUpdateError" class="error-message">{{ profileUpdateError }}</div>
+          <div *ngIf="profileUpdateSuccess" class="success-message">{{ profileUpdateSuccess }}</div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showChangePasswordPopup">
+      <div class="modal-content">
+        <h2>Change Password</h2>
+        <form #changePasswordForm="ngForm" (ngSubmit)="changePassword()">
+          <div class="form-group">
+            <label for="currentPassword">Current Password:</label>
+            <input type="password" id="currentPassword" name="currentPassword" [(ngModel)]="changePasswordData.currentPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="changePasswordData.newPassword" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="changePasswordData.confirmPassword" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="!changePasswordForm.valid || changePasswordData.newPassword !== changePasswordData.confirmPassword || changingPassword">
+              <span *ngIf="changingPassword">Changing...</span>
+              <span *ngIf="!changingPassword">Save</span>
+            </button>
+            <button type="button" (click)="closeChangePasswordPopup()">Cancel</button>
+          </div>
+          <div *ngIf="changePasswordData.newPassword !== changePasswordData.confirmPassword && changePasswordForm.controls['confirmPassword']?.touched" class="error-message">Passwords do not match.</div>
+          <div *ngIf="changePasswordError" class="error-message">{{ changePasswordError }}</div>
+          <div *ngIf="otpSentMessage" class="success-message">{{ otpSentMessage }}</div>
+          <div *ngIf="showOtpConfirmation">
+            <div class="form-group">
+              <label for="otp">OTP:</label>
+              <input type="text" id="otp" name="otp" [(ngModel)]="changePasswordData.otp" required>
+            </div>
+            <div class="form-actions">
+              <button type="button" (click)="confirmPasswordChange()">Confirm OTP</button>
+            </div>
+            <div *ngIf="otpConfirmationError" class="error-message">{{ otpConfirmationError }}</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showNotificationPreferencesPopup">
+      <div class="modal-content">
+        <h2>Notification Preferences</h2>
+        <form #notificationPreferencesForm="ngForm" (ngSubmit)="saveNotificationPreferences()">
+          <div class="preference-group">
+            <input type="checkbox" id="newBooking" name="newBooking" [(ngModel)]="notificationPreferences.newBooking">
+            <label for="newBooking">New booking confirmations.</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="bookingReminder" name="bookingReminder" [(ngModel)]="notificationPreferences.bookingReminder">
+            <label for="bookingReminder">Reminders for upcoming appointments.</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="bookingUpdate" name="bookingUpdate" [(ngModel)]="notificationPreferences.bookingUpdate">
+            <label for="bookingUpdate">Updates to your bookings (rescheduled, cancelled).</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="promotions" name="promotions" [(ngModel)]="notificationPreferences.promotions">
+            <label for="promotions">Special offers and promotions.</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="savingPreferences">
+              <span *ngIf="savingPreferences">Saving...</span>
+              <span *ngIf="!savingPreferences">Save</span>
+            </button>
+            <button type="button" (click)="closeNotificationPreferencesPopup()">Cancel</button>
+          </div>
+          <div *ngIf="notificationPreferenceError" class="error-message">{{ notificationPreferenceError }}</div>
+          <div *ngIf="notificationPreferenceSuccess" class="success-message">{{ notificationPreferenceSuccess }}</div>
+        </form>
+      </div>
+    </div>
   </div>
-  
+</div> -->
+
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="avatar-section">
+      <div class="avatar-wrapper">
+        <img [src]="profile.avatar" alt="Profile Image" class="avatar" />
+        <div class="camera-icon-overlay" (click)="uploadAvatar()">
+          <span class="material-icons">camera_alt</span>
+        </div>
+        <input type="file" #fileInput accept="image/*" capture="user" (change)="onFileSelected($event)" style="display: none;">
+      </div>
+      <h2>{{ profile.name }}</h2>
+    </div>
+
+    <div class="info-section">
+      <h3>Personal Information</h3>
+      <div class="info-row">
+        <span class="material-icons">person</span>
+        <div class="info-value">
+          <label>Name</label>
+          <span>{{ profile.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Contact Details</h3>
+      <div class="info-row">
+        <span class="material-icons">email</span>
+        <div class="info-value">
+          <label>Email</label>
+          <span>{{ profile.email }}</span>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">phone</span>
+        <div class="info-value">
+          <label>Phone</label>
+          <span>{{ profile.phone }}</span>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">location_on</span>
+        <div class="info-value">
+          <label>Address</label>
+          <span>{{ profile.address }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Account Settings</h3>
+      <div class="info-row">
+        <span class="material-icons">lock</span>
+        <button type="button" class="link-button" (click)="openChangePasswordPopup()">Change Password</button>
+      </div>
+      <div class="info-row">
+        <span class="material-icons">notifications</span>
+        <button type="button" class="link-button" (click)="openNotificationPreferencesPopup()">Notification Preferences</button>
+      </div>
+    </div>
+
+    <button class="edit-button" (click)="openEditProfilePopup()">Edit Profile</button>
+
+    <div class="modal-overlay" *ngIf="showEditProfilePopup">
+      <div class="modal-content edit-profile-modal">
+        <h2>Edit Profile</h2>
+        <form #editProfileForm="ngForm" (ngSubmit)="saveProfile(editProfileForm)">
+          <div class="form-group">
+            <div class="input-container">
+              <input type="text" id="editName" name="editName" [(ngModel)]="editProfileData.name" required placeholder="Name">
+              <label for="editName">Name</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-container">
+              <input type="email" id="editEmail" name="editEmail" [(ngModel)]="editProfileData.email" required email placeholder="Email">
+              <label for="editEmail">Email</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-container">
+              <input type="tel" id="editPhone" name="editPhone" [(ngModel)]="editProfileData.phone" placeholder="Phone">
+              <label for="editPhone">Phone</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-container textarea-container">
+              <textarea id="editAddress" name="editAddress" [(ngModel)]="editProfileData.address" placeholder="Address"></textarea>
+              <label for="editAddress">Address</label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="!editProfileForm.valid || savingProfile">
+              <span *ngIf="savingProfile">Saving...</span>
+              <span *ngIf="!savingProfile">Update</span>
+            </button>
+            <button type="button" (click)="closeEditProfilePopup()">Cancel</button>
+          </div>
+          <div *ngIf="profileUpdateError" class="error-message">{{ profileUpdateError }}</div>
+          <div *ngIf="profileUpdateSuccess" class="success-message">{{ profileUpdateSuccess }}</div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showChangePasswordPopup">
+      <div class="modal-content">
+        <h2>Change Password</h2>
+        <form #changePasswordForm="ngForm" (ngSubmit)="changePassword()">
+          <div class="form-group">
+            <label for="currentPassword">Current Password:</label>
+            <input type="password" id="currentPassword" name="currentPassword" [(ngModel)]="changePasswordData.currentPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="changePasswordData.newPassword" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="changePasswordData.confirmPassword" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="!changePasswordForm.valid || changePasswordData.newPassword !== changePasswordData.confirmPassword || changingPassword">
+              <span *ngIf="changingPassword">Changing...</span>
+              <span *ngIf="!changingPassword">Save</span>
+            </button>
+            <button type="button" (click)="closeChangePasswordPopup()">Cancel</button>
+          </div>
+          <div *ngIf="changePasswordData.newPassword !== changePasswordData.confirmPassword && changePasswordForm.controls['confirmPassword']?.touched" class="error-message">Passwords do not match.</div>
+          <div *ngIf="changePasswordError" class="error-message">{{ changePasswordError }}</div>
+          <div *ngIf="otpSentMessage" class="success-message">{{ otpSentMessage }}</div>
+          <div *ngIf="showOtpConfirmation">
+            <div class="form-group">
+              <label for="otp">OTP:</label>
+              <input type="text" id="otp" name="otp" [(ngModel)]="changePasswordData.otp" required>
+            </div>
+            <div class="form-actions">
+              <button type="button" (click)="confirmPasswordChange()">Confirm OTP</button>
+            </div>
+            <div *ngIf="otpConfirmationError" class="error-message">{{ otpConfirmationError }}</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showNotificationPreferencesPopup">
+      <div class="modal-content">
+        <h2>Notification Preferences</h2>
+        <form #notificationPreferencesForm="ngForm" (ngSubmit)="saveNotificationPreferences()">
+          <div class="preference-group">
+            <input type="checkbox" id="newBooking" name="newBooking" [(ngModel)]="notificationPreferences.newBooking">
+            <label for="newBooking">New booking confirmations.</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="bookingReminder" name="bookingReminder" [(ngModel)]="notificationPreferences.bookingReminder">
+            <label for="bookingReminder">Reminders for upcoming appointments.</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="bookingUpdate" name="bookingUpdate" [(ngModel)]="notificationPreferences.bookingUpdate">
+            <label for="bookingUpdate">Updates to your bookings (rescheduled, cancelled).</label>
+          </div>
+          <div class="preference-group">
+            <input type="checkbox" id="promotions" name="promotions" [(ngModel)]="notificationPreferences.promotions">
+            <label for="promotions">Special offers and promotions.</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" [disabled]="savingPreferences">
+              <span *ngIf="savingPreferences">Saving...</span>
+              <span *ngIf="!savingPreferences">Save</span>
+            </button>
+            <button type="button" (click)="closeNotificationPreferencesPopup()">Cancel</button>
+          </div>
+          <div *ngIf="notificationPreferenceError" class="error-message">{{ notificationPreferenceError }}</div>
+          <div *ngIf="notificationPreferenceSuccess" class="success-message">{{ notificationPreferenceSuccess }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
