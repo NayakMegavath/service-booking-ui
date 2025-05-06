@@ -3,8 +3,8 @@
     <div class="profile-avatar">
       <img src="assets/images/user-avatar.png" alt="User Profile" class="profile-img" />
     </div>
-    <div class="profile-name">John Doe</div>
-    <button class="menu-toggle-button" (click)="toggleSidebar()">
+    <div class="profile-name">{{userName}}</div>
+    <button class="menu-toggle-button" (click)="toggleSidebarInternal()">
       <span class="material-icons">menu</span>
     </button>
   </div>
@@ -18,7 +18,7 @@
     <li>
       <a routerLink="/dashboard/bookings" routerLinkActive="active">
         <span class="nav-icon material-icons">calendar_today</span>
-        <span class="nav-text">Bookings</span>
+        <span class="nav-text">My Bookings</span>
       </a>
     </li>
     <li>
@@ -29,7 +29,7 @@
     </li>
     <li>
       <a [routerLink]="['/login']" [queryParams]="{ userType: userType }">
-        <span class="material-icons">logout</span>
+        <span class="nav-icon material-icons">logout</span>
         <span class="nav-text">Logout</span>
       </a>
     </li>

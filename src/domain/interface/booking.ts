@@ -3,7 +3,7 @@ import { ServiceProvider } from "./service-provider";
 export interface Booking {
     id: number;
     serviceType: string;
-    appointmentDate: string;
+    appointmentDate:  Date | null;
     status: string;
     serviceProfesionalId: number,
     clientId: number,
